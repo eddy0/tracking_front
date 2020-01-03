@@ -1,0 +1,61 @@
+html, body, #app {
+    margin: 0;
+    height: 100%;
+    width: 100%;
+}
+
+*, *:after, *:before {
+    box-sizing: inherit;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue, sans-serif;
+    box-sizing: border-box;
+}
+
+ul {
+    padding: 0;
+}
+
+li {
+    list-style-type: none;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 50px;
+}
+
+.dark {
+    color: #DADADA;
+    background: #1c2022;
+    min-height: 100%;
+}
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.todo-add-box  input {
+    margin-bottom: 20px;
+}
+
+.todo-list {
+    background-color: #f9f9f9;
+}
+
+.todo-list li {
+    box-shadow: 0 3px 3px rgba(0,0,0,0.1);
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.todo-list span{
+    margin-right: 40px;
+    /*background-color: #333;*/
+}
