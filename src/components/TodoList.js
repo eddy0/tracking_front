@@ -1,5 +1,5 @@
 import React from 'react'
-import { Table, Divider, Tag } from 'antd'
+import { Table, Divider } from 'antd'
 
 const columns = [
     {
@@ -17,7 +17,6 @@ const columns = [
         title: 'Action',
         key: 'action',
         render: (text, todo) => {
-            console.log(text, todo)
             return (
                 <span>
         <a> {todo.complete === true ? 'x' : '!'}</a>
