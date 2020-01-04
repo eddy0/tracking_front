@@ -1,38 +1,68 @@
 import React from 'react'
-import { Table, Divider } from 'antd'
+import {Table, Divider, Button, Menu, Breadcrumb} from 'antd'
+import { NavLink} from "react-router-dom";
 
-const columns = [
-    {
-        title: 'Todo',
-        dataIndex: 'todo',
-        key: 'todo',
-        render: text => <a>{text}</a>,
-    },
-    {
-        title: 'Note',
-        dataIndex: 'note',
-        key: 'note',
-    },
-    {
-        title: 'Action',
-        key: 'action',
-        render: (text, todo) => {
-            return (
-                <span>
-        <a> {todo.complete === true ? 'x' : '!'}</a>
-        <Divider type="vertical"/>
-        <a>Delete</a>
-      </span>
-            )
+
+const activeStyle = {
+    color: '#ff0000'
+}
+
+const TodoList = ({todos, handleToggleTodo, handleDeleteTodo}) => {
+
+    const columns = [
+        {
+            title: 'Todo',
+            dataIndex: 'todo',
+            key: 'todo',
+            render: text => <span contentEditable={true}>{text}</span>,
         },
-    },
-]
+        {
+            title: 'Note',
+            dataIndex: 'note',
+            key: 'note',
+        },
+        {
+            title: 'time',
+            dataIndex: 'time',
+            key: 'time',
+        },
+        {
+            title: 'Action',
+            key: 'action',
+            render: (text, todo) => {
+                return (
+                    <span>
+                    <Button onClick={() => handleToggleTodo(todo)} size={"small"}
+                            type={todo.complete === true ? 'default' : 'primary'}>{todo.complete === true ? 'undo' : 'done'}</Button>
+                    <Divider type="vertical"/>
+                    <Button onClick={() => handleDeleteTodo(todo)} size={"small"} type={'dashed'}>Delete</Button>
+                </span>
+                )
+            },
+        },
+    ]
 
-
-const TodoList = ({todos}) => {
     return (
         <div className='todo-list container'>
-            <Table columns={columns} dataSource={Object.values(todos)}/>
+            <Breadcrumb style={{marginBottom: '20px'}}>
+                <Breadcrumb.Item>
+                    <NavLink to={'/todo/uncomplete'} activeStyle={activeStyle}>
+                        Uncomplete
+                    </NavLink>
+                </Breadcrumb.Item>
+                <Breadcrumb.Item>
+                    <NavLink to={'/todo/complete'} activeStyle={activeStyle}>
+                        Completed
+                    </NavLink>
+                </Breadcrumb.Item>
+                <Breadcrumb.Item>
+                    <NavLink to={'/todo'} exact activeStyle={activeStyle}>
+                        All
+                    </NavLink>
+                </Breadcrumb.Item>
+            </Breadcrumb>
+
+            <Table columns={columns} align={'center'} pagination={false} dataSource={todos}/>
         </div>
     )
 }

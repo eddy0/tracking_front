@@ -16,7 +16,7 @@ const TodoAdd = ({handleAddTodo, ...props}) => {
                 const todo = createTodo(value)
                 handleAddTodo(todo)
                 props.form.resetFields()
-                props.history.push('/todo')
+                props.history.push('/')
             }
         })
     }

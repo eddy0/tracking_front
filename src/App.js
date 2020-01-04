@@ -5,16 +5,43 @@ import TodoAdd from './components/TodoAdd'
 import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
 import Nav from "./components/Nav";
 import {Layout} from "antd";
+import {initTodos, saveTodos} from "./utils";
 
 const {Footer} = Layout;
 
 
 function App() {
-    const [todos, setTodos] = React.useState({})
+    const [todos, setTodos] = React.useState(() => initTodos())
 
     const handleAddTodo = (todo) => {
         setTodos((t) => Object.assign({}, t, todo))
     }
+
+    const handleToggleTodo = (todo) => {
+        setTodos((todos) => {
+            return Object.values(todos).map((t) => {
+                if (t.id === todo.id) {
+                    return {...t, complete: !t.complete}
+                } else {
+                    return t
+                }
+            })
+        })
+    }
+
+    const handleDeleteTodo = (todo) => {
+        setTodos((todos) => {
+            return Object.values(todos).filter((t) => {
+                return t.id !== todo.id
+            })
+        })
+    }
+
+    React.useEffect(() => {
+        saveTodos(todos)
+    }, [todos])
+
+    const ts = Object.values(todos)
 
     return (
         <React.Fragment>
@@ -22,9 +49,20 @@ function App() {
                 <Nav/>
                 <div className="container">
                     <Switch>
-                        <Redirect exact from={'/'} to={'/todo'} />
-                        <Route path='/todo' exact render={() => <TodoList todos={todos}/>}/>
-                        <Route path='/todo/add' exact  render={(props) => <TodoAdd {...props} handleAddTodo={handleAddTodo}/>}/>
+                        <Redirect exact from={'/'} to={'/todo'}/>
+                        <Route path='/todo' exact
+                               render={() => <TodoList handleDeleteTodo={handleDeleteTodo}
+                                                       handleToggleTodo={handleToggleTodo} todos={ts}/>}/>
+                        <Route path='/todo/uncomplete' exact
+                               render={() => <TodoList handleDeleteTodo={handleDeleteTodo}
+                                                       handleToggleTodo={handleToggleTodo}
+                                                       todos={ts.filter(t => t.complete === true)}/>}/>
+                        <Route path='/todo/complete' exact
+                               render={() => <TodoList handleDeleteTodo={handleDeleteTodo}
+                                                       handleToggleTodo={handleToggleTodo}
+                                                       todos={ts.filter(t => t.complete === false)}/>}/>
+                        <Route path='/todo/add' exact
+                               render={(props) => <TodoAdd {...props} handleAddTodo={handleAddTodo}/>}/>
                     </Switch>
                 </div>
             </BrowserRouter>
