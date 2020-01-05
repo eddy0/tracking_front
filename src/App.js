@@ -2,12 +2,13 @@ import React from 'react'
 import './App.css'
 import TodoList from './components/TodoList'
 import TodoAdd from './components/TodoAdd'
-import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
-import Nav from "./components/Nav";
-import {Layout} from "antd";
-import {initTodos, saveTodos} from "./utils";
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom"
+import Nav from "./components/Nav"
+import { Layout } from "antd"
+import { initTodos, saveTodos } from "./utils"
+import EditableTable from './components/Table'
 
-const {Footer} = Layout;
+const {Footer} = Layout
 
 
 function App() {
@@ -37,11 +38,24 @@ function App() {
         })
     }
 
+    const handleTodoUpdate = (todo) => {
+        setTodos((todos) => {
+            return Object.values(todos).map((t) => {
+                if (t.id === todo.id) {
+                    return {...t, todo: todo.todo}
+                } else {
+                    return t
+                }
+            })
+        })
+    }
+
     React.useEffect(() => {
         saveTodos(todos)
     }, [todos])
 
-    const ts = Object.values(todos)
+
+    let ts = Object.values(todos)
 
     return (
         <React.Fragment>
@@ -61,6 +75,8 @@ function App() {
                                render={() => <TodoList handleDeleteTodo={handleDeleteTodo}
                                                        handleToggleTodo={handleToggleTodo}
                                                        todos={ts.filter(t => t.complete === false)}/>}/>
+                        <Route path='/test' exact
+                               render={() => <EditableTable handleTodoUpdate={handleTodoUpdate} todos={ts}/>}/>
                         <Route path='/todo/add' exact
                                render={(props) => <TodoAdd {...props} handleAddTodo={handleAddTodo}/>}/>
                     </Switch>

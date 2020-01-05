@@ -14,7 +14,7 @@ const TodoList = ({todos, handleToggleTodo, handleDeleteTodo}) => {
             title: 'Todo',
             dataIndex: 'todo',
             key: 'todo',
-            render: text => <span contentEditable={true}>{text}</span>,
+            render: text => <input value={text} disabled={true} />,
         },
         {
             title: 'Note',
