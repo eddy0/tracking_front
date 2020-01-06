@@ -3,16 +3,29 @@ import * as uuid from "uuid";
 const log = console.log.bind(console)
 
 
-const createTodo = (todo) => {
-    let obj = {}
+const createTodo = ({todo, note}) => {
+    const t = {}
     const id = uuid.v4()
     const time = new Date(Date.now()).toLocaleDateString()
-    todo.complete = false
-    todo.id = id
-    todo.key = id
-    todo.time= time
-    obj[id] = todo
-    return obj
+    t.complete = false
+    t.id = id
+    t.key = id
+    t.time = time
+    t.todo = todo
+    t.note = [{note: note, time: time}]
+    saveTodo(t)
+}
+
+const saveTodo = (todo) => {
+    let todos = getTodos();
+    const i = todos.findIndex(t => t.id === todo.id);
+    if (i === -1) {
+        todos.push(todo);
+    } else {
+        todos[i] = todo;
+    }
+    saveTodos(todos);
+    return todos
 }
 
 const saveTodos = (todos) => {
@@ -20,10 +33,10 @@ const saveTodos = (todos) => {
     window.localStorage.todos = JSON.stringify(todos)
 }
 
-const initTodos = () => {
+const getTodos = () => {
     const todos = window.localStorage.getItem('todos')
-    if ( todos === null) {
-        return {}
+    if (todos === null) {
+        return []
     } else {
         return JSON.parse(todos)
     }
@@ -32,6 +45,6 @@ const initTodos = () => {
 export {
     log,
     createTodo,
-    initTodos,
+    getTodos,
     saveTodos,
 }

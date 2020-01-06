@@ -3,7 +3,7 @@ import {Form, Input, Button} from 'antd'
 import {createTodo} from "../utils";
 
 
-const TodoAdd = ({handleAddTodo, ...props}) => {
+const TodoAdd = (props) => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -13,8 +13,7 @@ const TodoAdd = ({handleAddTodo, ...props}) => {
                 if (value.note === undefined) {
                     value.note = ''
                 }
-                const todo = createTodo(value)
-                handleAddTodo(todo)
+                createTodo(value)
                 props.form.resetFields()
                 props.history.push('/')
             }
