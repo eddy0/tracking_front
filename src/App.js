@@ -2,14 +2,13 @@ import React from 'react'
 import './App.css'
 import TodoList from './components/TodoList'
 import TodoAdd from './components/TodoAdd'
-import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom"
+import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom"
 import Nav from "./components/Nav"
-import { Layout } from "antd"
-import { initTodos, saveTodos } from "./utils"
+import {Layout} from "antd"
+import {initTodos, saveTodos} from "./utils"
 import EditableTable from './components/Table'
 
 const {Footer} = Layout
-
 
 function App() {
     const [todos, setTodos] = React.useState(() => initTodos())
