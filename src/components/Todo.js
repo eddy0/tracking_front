@@ -106,14 +106,14 @@ class Todo extends React.Component {
             },
             {
                 title: 'Note',
-                dataIndex: 'note',
-                key: 'note',
-                render: (text, record) => <span>{ record.note.slice(-1)[0].note }</span>
+                dataIndex: 'lastNote',
+                key: 'lastNote',
+                editable: true,
             },
             {
-                title: 'time',
-                dataIndex: 'time',
-                key: 'time',
+                title: 'Time',
+                dataIndex: 'createTime',
+                key: 'createTime',
             },
             {
                 title: 'operation',
@@ -126,7 +126,7 @@ class Todo extends React.Component {
 
     componentDidMount() {
         const todos = getTodos()
-        this.setState({dataSource: Object.values(todos), count: todos.length})
+        this.setState({dataSource: todos, count: todos.length})
     }
 
 
@@ -163,7 +163,8 @@ class Todo extends React.Component {
     }
 
 
-    handleSave = todo => {
+    handleSave = (todo, e) => {
+        console.log(todo, e.target)
         let newData = [...this.state.dataSource]
         newData = newData.map((t) => {
             if (t.id === todo.id) {
@@ -189,12 +190,12 @@ class Todo extends React.Component {
             }
             return {
                 ...col,
-                onCell: record => ({
+                onCell: (record, index, ...rest) => ({
                     record,
                     editable: col.editable,
                     dataIndex: col.dataIndex,
                     title: col.title,
-                    handleSave: this.handleSave,
+                    handleSave: () => this.handleSave(record,index, rest ),
                 }),
             }
         })
