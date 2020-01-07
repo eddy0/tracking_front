@@ -10,7 +10,7 @@ const TodoAdd = (props) => {
         props.form.validateFields((err, value) => {
             if (!err) {
                 if (value.note === undefined) {
-                    value.note = ' '
+                    value.note = 'N/A'
                 }
                 createTodo(value)
                 props.form.resetFields()
