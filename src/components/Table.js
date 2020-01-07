@@ -2,6 +2,7 @@ import { Table, Input, Button, Popconfirm, Form, Modal } from 'antd'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import TableCta from './TableCTA'
+import {now} from "../utils";
 
 const EditableContext = React.createContext()
 
@@ -143,7 +144,7 @@ class EditableTable extends React.Component {
         let newData = [...this.state.dataSource]
         newData = newData.map((t) => {
             if (t.id === todo.id) {
-                return {...t, todo: todo.todo}
+                return {...t, todo: todo.todo, updatedTime: now(Date.now())}
             } else {
                 return t
             }

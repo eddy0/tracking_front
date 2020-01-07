@@ -1,6 +1,6 @@
 import React from 'react'
-import { Button, Modal, Popconfirm } from 'antd'
-import { Comment, Avatar, Form, List, Input } from 'antd'
+import {Button, Divider, Modal, Popconfirm} from 'antd'
+import {Comment, Avatar, Form, List, Input} from 'antd'
 import moment from 'moment'
 
 const {TextArea} = Input
@@ -94,10 +94,12 @@ class Note extends React.Component {
 }
 
 
-const TableCta = ({record, handleDelete}) => {
+const TableCta = (props) => {
+    const {record, handleDelete, handleToggleTodo} = props
+    const todo = record
     return (
-        <span>
-            <Button style={{marginRight: '10px'}} onClick={() => Modal.info({
+        <div style={{display: 'flex', alignItems: 'center'}}>
+            <Button onClick={() => Modal.info({
                 title: record.todo,
                 content: (
                     <div>
@@ -108,12 +110,15 @@ const TableCta = ({record, handleDelete}) => {
                 onOk() {
                 },
             })}>details</Button>
-            <Button style={{marginRight: '10px'}}>complete</Button>
+            <Divider type="vertical"/>
+            <Button onClick={() => handleToggleTodo(todo.id)}
+                    type={todo.complete === true ? 'default' : 'primary'}>{todo.complete === true ? 'undo' : 'done'}</Button>
+             <Divider type="vertical"/>
             <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.key)}>
                 <Button type={'dashed'}>Delete</Button>
             </Popconfirm>
 
-        </span>
+        </div>
     )
 }
 

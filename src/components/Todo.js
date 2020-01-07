@@ -2,7 +2,8 @@ import React from 'react';
 import {Table, Input, Button, Popconfirm, Form, Modal} from 'antd'
 import {Link} from 'react-router-dom'
 import TableCta from './TableCTA'
-import {getTodos} from "../utils";
+import {getTodos, now, saveTodos} from "../utils";
+
 
 const EditableContext = React.createContext()
 
@@ -114,12 +115,14 @@ class Todo extends React.Component {
                 title: 'Time',
                 dataIndex: 'updatedTime',
                 key: 'updatedTime',
+                width: '140px',
             },
             {
-                title: 'operation',
-                dataIndex: 'operation',
+                title: 'Action',
+                dataIndex: 'action',
+                width: 'max-content',
                 render: (text, record) => <TableCta record={record} handleToggleTodo={this.handleToggleTodo}
-                                                    handleDelete={this.handleDelete} {...props} />
+                                                    handleDelete={this.handleDeleteTodo} {...props} />
             },
         ]
     }
@@ -130,56 +133,60 @@ class Todo extends React.Component {
     }
 
 
-    handleDelete = key => {
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        saveTodos(this.state.dataSource)
+    }
+
+
+    handleDeleteTodo = key => {
         const dataSource = [...this.state.dataSource]
         this.setState({dataSource: dataSource.filter(item => item.key !== key)})
     }
 
 
-    handleToggleTodo = (todo) => {
-        this.state.dataSource.map((t) => {
-            if (t.id === todo.id) {
-                return {...t, complete: !t.complete}
-            } else {
-                return t
+    handleToggleTodo = (id) => {
+        this.setState((previousState) => {
+            const s = previousState.dataSource.map((t) => {
+                if (t.id === id) {
+                    return {...t, complete: !t.complete, updatedTime: now(Date.now())}
+                } else {
+                    return t
+                }
+            })
+            return {
+                ...previousState,
+                dataSource: s
             }
-        })
-    }
-
-
-    handleDeleteTodo = (todo) => {
-        this.state.dataSource.filter((t) => {
-            return t.id !== todo.id
         })
     }
 
 
     handleTodoUpdate = (todo) => {
-        this.state.dataSource.map((t) => {
-            if (t.id === todo.id) {
-                return {...t, todo: todo.todo, lastNote: todo.lastNote}
-            } else {
-                return t
-            }
-        })
-    }
-
-
-    handleSave = (todo) => {
         let newData = [...this.state.dataSource]
         newData = newData.map((t) => {
             if (t.id === todo.id) {
-                return {...t, todo: todo.todo, lastNote: todo.lastNote}
+                return {...t,
+                    todo: todo.todo,
+                    lastNote: todo.lastNote,
+                    updatedTime: now(Date.now()),
+                }
             } else {
                 return t
             }
         })
-
         this.setState({dataSource: newData})
     }
 
+
     render() {
-        const {dataSource} = this.state
+        let dataSource = this.state.dataSource
+        const pathname = this.props.history.location.pathname
+        if (pathname === '/todo/complete') {
+            dataSource = this.state.dataSource.filter(d => d.complete === true)
+        } else if (pathname === '/todo/uncomplete') {
+            dataSource = this.state.dataSource.filter(d => d.complete === false)
+        }
+
         const components = {
             body: {
                 row: EditableFormRow,
@@ -197,7 +204,7 @@ class Todo extends React.Component {
                     editable: col.editable,
                     dataIndex: col.dataIndex,
                     title: col.title,
-                    handleSave: this.handleSave,
+                    handleSave: this.handleTodoUpdate,
                 }),
             }
         })

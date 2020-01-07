@@ -9,9 +9,8 @@ const TodoAdd = (props) => {
         e.preventDefault()
         props.form.validateFields((err, value) => {
             if (!err) {
-                console.log('Received values of form: ', value)
                 if (value.note === undefined) {
-                    value.note = ''
+                    value.note = ' '
                 }
                 createTodo(value)
                 props.form.resetFields()

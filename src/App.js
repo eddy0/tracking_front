@@ -54,8 +54,8 @@ function App() {
                 <div className="container" style={{paddingTop: '100px'}}>
                     <Switch>
                         <Redirect exact from={'/'} to={'/todo'}/>
-                        <Route path='/todo' exact component={Todo}/>
                         <Route path='/todo/add' exact component={TodoAdd}/>
+                        <Route path='/todo' component={Todo}/>
                     </Switch>
                 </div>
                 <Footer style={{position: 'fixed', bottom: '0', width: '100vw', textAlign: 'center'}}>Ant Design ©2020

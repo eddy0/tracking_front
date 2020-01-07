@@ -2,11 +2,14 @@ import * as uuid from "uuid";
 
 const log = console.log.bind(console)
 
+const now = (unix) => {
+    return new Date(unix).toLocaleDateString('en-US', {hour: '2-digit'})
+}
 
 const createTodo = ({todo, note}) => {
     const t = {}
     const id = uuid.v4()
-    const time = new Date(Date.now()).toLocaleDateString()
+    const time = now(Date.now())
     t.complete = false
     t.id = id
     t.key = id
@@ -50,4 +53,5 @@ export {
     createTodo,
     getTodos,
     saveTodos,
+    now,
 }
