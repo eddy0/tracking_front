@@ -93,7 +93,7 @@ class Todo extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            dataSource:[],
+            dataSource: [],
             count: 0,
         }
 
@@ -146,16 +146,18 @@ class Todo extends React.Component {
         })
     }
 
+
     handleDeleteTodo = (todo) => {
         this.state.dataSource.filter((t) => {
             return t.id !== todo.id
         })
     }
 
+
     handleTodoUpdate = (todo) => {
         this.state.dataSource.map((t) => {
             if (t.id === todo.id) {
-                return {...t, todo: todo.todo}
+                return {...t, todo: todo.todo, lastNote: todo.lastNote}
             } else {
                 return t
             }
@@ -163,16 +165,16 @@ class Todo extends React.Component {
     }
 
 
-    handleSave = (todo, e) => {
-        console.log(todo, e.target)
+    handleSave = (todo) => {
         let newData = [...this.state.dataSource]
         newData = newData.map((t) => {
             if (t.id === todo.id) {
-                return {...t, todo: todo.todo}
+                return {...t, todo: todo.todo, lastNote: todo.lastNote}
             } else {
                 return t
             }
         })
+
         this.setState({dataSource: newData})
     }
 
@@ -190,12 +192,12 @@ class Todo extends React.Component {
             }
             return {
                 ...col,
-                onCell: (record, index, ...rest) => ({
+                onCell: (record) => ({
                     record,
                     editable: col.editable,
                     dataIndex: col.dataIndex,
                     title: col.title,
-                    handleSave: () => this.handleSave(record,index, rest ),
+                    handleSave: this.handleSave,
                 }),
             }
         })
