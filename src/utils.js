@@ -10,10 +10,11 @@ const createTodo = ({todo, note}) => {
     t.complete = false
     t.id = id
     t.key = id
-    t.createTime = time
-    t.updateTime = time
+    t.createdTime = time
+    t.updatedTime = time
     t.todo = todo
-    t.note = [{note: note, time: time}]
+    // t.note = [{note: note, time: time}]
+    t.note = []
     t.lastNote = note
     saveTodo(t)
 }

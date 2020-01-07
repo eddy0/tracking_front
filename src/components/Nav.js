@@ -9,7 +9,6 @@ const Nav = (props) => {
     const location = props.location.pathname
 
     return (
-        <Layout>
             <Header style={{position: 'fixed', zIndex: 1, width: '100%'}}>
                 <div className="logo"/>
                 <Menu
@@ -22,13 +21,6 @@ const Nav = (props) => {
                     <Menu.Item key="/todo/add"><NavLink to={'/todo/add'}>Add</NavLink></Menu.Item>
                 </Menu>
             </Header>
-            <div style={{padding: '0 50px', marginTop: 64}}>
-                <Breadcrumb style={{margin: '16px 0'}}>
-                    <Breadcrumb.Item>Home</Breadcrumb.Item>
-                    <Breadcrumb.Item>Todo</Breadcrumb.Item>
-                </Breadcrumb>
-            </div>
-        </Layout>
     );
 };
 

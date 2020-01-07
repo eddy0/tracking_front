@@ -18,13 +18,13 @@ const TodoList = ({todos, handleToggleTodo, handleDeleteTodo}) => {
         },
         {
             title: 'Note',
-            dataIndex: 'note',
-            key: 'note',
+            dataIndex: 'lastNote',
+            key: 'lastNote',
         },
         {
             title: 'time',
-            dataIndex: 'time',
-            key: 'time',
+            dataIndex: 'updatedTime',
+            key: 'updatedTime',
         },
         {
             title: 'Action',

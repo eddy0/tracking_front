@@ -20,7 +20,6 @@ const TodoAdd = (props) => {
         })
     }
 
-
     const {getFieldDecorator} = props.form
 
     return (
