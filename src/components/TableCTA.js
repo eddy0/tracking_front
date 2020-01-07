@@ -108,9 +108,11 @@ const TableCta = ({record, handleDelete}) => {
                 onOk() {
                 },
             })}>details</Button>
+            <Button style={{marginRight: '10px'}}>complete</Button>
             <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.key)}>
                 <Button type={'dashed'}>Delete</Button>
             </Popconfirm>
+
         </span>
     )
 }

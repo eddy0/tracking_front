@@ -112,8 +112,8 @@ class Todo extends React.Component {
             },
             {
                 title: 'Time',
-                dataIndex: 'createTime',
-                key: 'createTime',
+                dataIndex: 'updatedTime',
+                key: 'updatedTime',
             },
             {
                 title: 'operation',
