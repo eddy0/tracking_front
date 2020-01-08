@@ -178,8 +178,10 @@ class Todo extends React.Component {
     }
 
 
+
     render() {
         let dataSource = this.state.dataSource
+        console.log(dataSource)
         const pathname = this.props.history.location.pathname
         if (pathname === '/todo/complete') {
             dataSource = this.state.dataSource.filter(d => d.complete === true)

@@ -48,10 +48,28 @@ const getTodos = () => {
     }
 }
 
+const saveComments = (notes, id) => {
+    return new Promise((res, rej) => {
+        setTimeout(() => {
+            let todos = getTodos();
+            todos = todos.map((t) => {
+                if (t.id === id) {
+                    return {...t, note: notes}
+                } else {
+                    return t
+                }
+            })
+            saveTodos(todos);
+            res()
+        }, 100)
+    })
+}
+
 export {
     log,
     createTodo,
     getTodos,
     saveTodos,
     now,
+    saveComments,
 }
