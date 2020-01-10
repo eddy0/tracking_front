@@ -5,48 +5,11 @@ import TodoAdd from './components/TodoAdd'
 import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom"
 import Nav from "./components/Nav"
 import {Layout} from "antd"
-import {getTodos, saveTodos} from "./utils"
-import EditableTable from './components/Table'
 import Todo from "./components/Todo";
 
 const {Footer} = Layout
 
 function App() {
-    // const handleAddTodo = (todo) => {
-    //     setTodos((t) => Object.assign({}, t, todo))
-    // }
-    //
-    // const handleToggleTodo = (todo) => {
-    //     setTodos((todos) => {
-    //         return Object.values(todos).map((t) => {
-    //             if (t.id === todo.id) {
-    //                 return {...t, complete: !t.complete}
-    //             } else {
-    //                 return t
-    //             }
-    //         })
-    //     })
-    // }
-    //
-    // const handleDeleteTodo = (todo) => {
-    //     setTodos((todos) => {
-    //         return Object.values(todos).filter((t) => {
-    //             return t.id !== todo.id
-    //         })
-    //     })
-    // }
-    //
-    // const handleTodoUpdate = (todo) => {
-    //     setTodos((todos) => {
-    //         return Object.values(todos).map((t) => {
-    //             if (t.id === todo.id) {
-    //                 return {...t, todo: todo.todo}
-    //             } else {
-    //                 return t
-    //             }
-    //         })
-    //     })
-    // }
     return (
         <BrowserRouter>
             <React.Fragment>

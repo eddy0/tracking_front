@@ -2,14 +2,16 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
 import App from './App'
+import {getTodos} from "./utils";
 
-const states = {}
 
-const Provider = React.createContext()
+const intialState = getTodos()
+
+const Provider = React.createContext(intialState)
 
 
 ReactDOM.render(
-    <Provider.Provider value={states}>
+    <Provider.Provider value={intialState}>
         <App/>
     </Provider.Provider>
     , document.getElementById('root'))
