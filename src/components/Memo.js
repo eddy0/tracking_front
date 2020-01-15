@@ -35,7 +35,7 @@ const Editor = ({onChange, onSubmit, submitting, value}) => (
 
 class Memo extends React.Component {
     state = {
-        comments: this.props.comments || [],
+
         submitting: false,
         value: '',
     }
