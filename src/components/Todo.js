@@ -1,5 +1,5 @@
 import React from 'react';
-import {Table, Input, Button, Popconfirm, Form, Modal} from 'antd'
+import {Table, Input, Button, Form} from 'antd'
 import {Link} from 'react-router-dom'
 import TableCta from './TableCTA'
 import {getTodos, now, saveTodos} from "../utils";

@@ -4,7 +4,6 @@ import './index.css'
 import App from './App'
 import {getTodos} from "./utils";
 
-
 const intialState = getTodos()
 
 const Provider = React.createContext(intialState)
