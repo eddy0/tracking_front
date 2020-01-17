@@ -4,7 +4,6 @@ import {createTodo} from "../utils";
 
 
 const TodoAdd = (props) => {
-
     const handleSubmit = (e) => {
         e.preventDefault()
         props.form.validateFields((err, value) => {

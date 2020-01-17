@@ -1,6 +1,5 @@
 import React from 'react'
 import './App.css'
-import TodoList from './components/TodoList'
 import TodoAdd from './components/TodoAdd'
 import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom"
 import Nav from "./components/Nav"

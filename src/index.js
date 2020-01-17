@@ -2,16 +2,16 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
 import App from './App'
-import {getTodos} from "./utils";
+import {createStore} from 'redux'
+import {Provider} from 'react-redux'
+import reducer from "./reducer";
 
-const intialState = getTodos()
-
-const Provider = React.createContext(intialState)
+const store = createStore(reducer)
 
 
 ReactDOM.render(
-    <Provider.Provider value={intialState}>
+    <Provider store={store}>
         <App/>
-    </Provider.Provider>
+    </Provider>
     , document.getElementById('root'))
 
