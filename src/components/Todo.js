@@ -3,6 +3,8 @@ import {Table, Input, Button, Form} from 'antd'
 import {Link} from 'react-router-dom'
 import TableCta from './TableCTA'
 import {getTodos, now, saveTodos} from "../utils";
+import {connect} from "react-redux";
+import {handleFetchTodos} from "../actions/todoAction";
 
 
 const EditableContext = React.createContext()
@@ -91,14 +93,8 @@ class EditableCell extends React.Component {
 }
 
 class Todo extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            dataSource: [],
-            count: 0,
-        }
 
-        this.columns = [
+    columns = [
             {
                 title: 'Todo',
                 dataIndex: 'todo',
@@ -122,19 +118,15 @@ class Todo extends React.Component {
                 dataIndex: 'action',
                 width: 'max-content',
                 render: (text, record) => <TableCta record={record} handleToggleTodo={this.handleToggleTodo}
-                                                    handleDelete={this.handleDeleteTodo} {...props} />
+                                                    handleDelete={this.handleDeleteTodo} {...this.props} />
             },
         ]
-    }
+
 
     componentDidMount() {
-        const todos = getTodos()
-        this.setState({dataSource: todos, count: todos.length})
-    }
-
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        saveTodos(this.state.dataSource)
+        if (this.props.dataSource.length === 0) {
+            this.props.handleFetchTodos()
+        }
     }
 
 
@@ -180,13 +172,12 @@ class Todo extends React.Component {
 
 
     render() {
-        let dataSource = this.state.dataSource
-        console.log(dataSource)
+        let dataSource = this.props.dataSource
         const pathname = this.props.history.location.pathname
         if (pathname === '/todo/complete') {
-            dataSource = this.state.dataSource.filter(d => d.complete === true)
+            dataSource = dataSource.filter(d => d.complete === true)
         } else if (pathname === '/todo/uncomplete') {
-            dataSource = this.state.dataSource.filter(d => d.complete === false)
+            dataSource = dataSource.filter(d => d.complete === false)
         }
 
         const components = {
@@ -229,4 +220,16 @@ class Todo extends React.Component {
     }
 }
 
-export default Todo;
+const mapStateToProps = (state) => {
+    const todos = state.todos
+    return {
+        dataSource: todos,
+        count: todos.length
+    }
+}
+
+const mapDispatchToProps = ({
+    handleFetchTodos,
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Todo);

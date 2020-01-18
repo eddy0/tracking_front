@@ -40,12 +40,16 @@ const saveTodos = (todos) => {
 }
 
 const getTodos = () => {
-    const todos = window.localStorage.getItem('todos')
+    let todos = window.localStorage.getItem('todos')
     if (todos === null) {
-        return []
+        todos = []
     } else {
-        return JSON.parse(todos)
+        todos = JSON.parse(todos)
     }
+
+    return new Promise((res, rej) => {
+        res(todos)
+    })
 }
 
 const saveComments = (notes, id) => {

@@ -1,9 +1,6 @@
 import createReducer from "./helper";
+import {CREATE_TODO, DELETE_TODO, FETCH_TODO, UPDATE_TODO} from "../actions/todoAction";
 
-const FETCH_TODO = 'FETCH_TODO'
-const CREATE_EVENT = 'CREATE_EVENT'
-const DELETE_EVENT = 'DELETE_EVENT'
-const UPDATE_EVENT = 'UPDATE_EVENT'
 
 const fetchTodoReducer = (state, action) => {
     return [...action.todos]
@@ -29,7 +26,7 @@ const updateTodoReducer = (state, action) => {
 
 export default createReducer([], {
     [FETCH_TODO]: fetchTodoReducer,
-    [CREATE_EVENT]: createTodoReducer,
-    [DELETE_EVENT]: deleteTodoReducer,
-    [UPDATE_EVENT]: updateTodoReducer,
+    [CREATE_TODO]: createTodoReducer,
+    [DELETE_TODO]: deleteTodoReducer,
+    [UPDATE_TODO]: updateTodoReducer,
 })
