@@ -1,7 +1,10 @@
-import {Button, Comment, Form, Input, List} from "antd";
-import moment from "moment";
-import React from "react";
-import {saveComments} from "../utils";
+import {Button, Comment, Form, Input, List} from 'antd'
+import moment from 'moment'
+import React from 'react'
+import {saveComments} from '../utils'
+import {useDispatch, useSelector} from 'react-redux'
+import {handleUpdateComment} from '../actions/todoAction'
+
 
 const {TextArea} = Input
 
@@ -33,66 +36,49 @@ const Editor = ({onChange, onSubmit, submitting, value}) => (
     </div>
 )
 
-class Memo extends React.Component {
-    state = {
+const Memo = (props) => {
+    const [loading, setLoading] = React.useState(false)
+    const [value, setValue] = React.useState('')
+    const dispatch = useDispatch()
+    const todo = useSelector(state => state.todos.filter((t) => t.id === props.id))
 
-        submitting: false,
-        value: '',
-    }
-
-    handleSubmit = () => {
-        if (!this.state.value) {
+    const handleSubmit = () => {
+        if (!value) {
             return
         }
 
-        this.setState({
-            submitting: true,
-        })
+        setLoading(true)
 
         const c = {
-            content: this.state.value,
-            datetime: Date.now(),
+            content: value,
+            time: Date.now(),
         }
-        const id = this.props.id
+        const id = props.id
 
-        const comments = [...this.state.comments, c]
+        dispatch(handleUpdateComment(c, id))
 
-        saveComments(comments, id).then(() => {
-            this.setState((prev) => {
-                return {
-                    submitting: false,
-                    value: '',
-                    comments: [...prev.comments, c],
+        setLoading(false)
+        setValue('')
+    }
+
+
+    const comments = todo[0].comments
+
+    return (
+        <div>
+            {comments.length > 0 && <CommentList comments={comments}/>}
+            <Comment
+                content={
+                    <Editor
+                        onChange={(e) => setValue(e.target.value)}
+                        onSubmit={handleSubmit}
+                        submitting={loading}
+                        value={value}
+                    />
                 }
-            })
-        })
-    }
-
-
-    handleChange = e => {
-        this.setState({
-            value: e.target.value,
-        })
-    }
-
-    render() {
-        const {comments, submitting, value} = this.state
-        return (
-            <div>
-                {comments.length > 0 && <CommentList comments={comments}/>}
-                <Comment
-                    content={
-                        <Editor
-                            onChange={this.handleChange}
-                            onSubmit={this.handleSubmit}
-                            submitting={submitting}
-                            value={value}
-                        />
-                    }
-                />
-            </div>
-        )
-    }
+            />
+        </div>
+    )
 }
 
 

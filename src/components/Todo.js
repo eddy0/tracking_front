@@ -2,9 +2,9 @@ import React from 'react';
 import {Table, Input, Button, Form} from 'antd'
 import {Link} from 'react-router-dom'
 import TableCta from './TableCTA'
-import {getTodos, now, saveTodos} from "../utils";
 import {connect} from "react-redux";
-import {handleFetchTodos} from "../actions/todoAction";
+import {handleFetchTodos, handleUpdateTodo} from "../actions/todoAction";
+import {now} from '../utils'
 
 
 const EditableContext = React.createContext()
@@ -32,13 +32,14 @@ class EditableCell extends React.Component {
     }
 
     save = e => {
+        const target = e.target.id
         const {record, handleSave} = this.props
         this.form.validateFields((error, values) => {
             if (error && error[e.currentTarget.id]) {
                 return
             }
             this.toggleEdit()
-            handleSave({...record, ...values})
+            handleSave({target, ...record, ...values})
         })
     }
 
@@ -103,8 +104,8 @@ class Todo extends React.Component {
             },
             {
                 title: 'Note',
-                dataIndex: 'lastNote',
-                key: 'lastNote',
+                dataIndex: 'note',
+                key: 'note',
                 editable: true,
             },
             {
@@ -112,13 +113,13 @@ class Todo extends React.Component {
                 dataIndex: 'updatedTime',
                 key: 'updatedTime',
                 width: '140px',
+                render: (text, record) => <span>{now(record.updatedTime)}</span>
             },
             {
                 title: 'Action',
                 dataIndex: 'action',
                 width: 'max-content',
-                render: (text, record) => <TableCta record={record} handleToggleTodo={this.handleToggleTodo}
-                                                    handleDelete={this.handleDeleteTodo} {...this.props} />
+                render: (text, record) => <TableCta record={record} {...this.props} />
             },
         ]
 
@@ -130,49 +131,22 @@ class Todo extends React.Component {
     }
 
 
-    handleDeleteTodo = key => {
-        const dataSource = [...this.state.dataSource]
-        this.setState({dataSource: dataSource.filter(item => item.key !== key)})
+    update = ({target, ...todo}) => {
+        this.props.handleUpdateTodo(target, todo)
     }
 
 
-    handleToggleTodo = (id) => {
-        this.setState((previousState) => {
-            const s = previousState.dataSource.map((t) => {
-                if (t.id === id) {
-                    return {...t, complete: !t.complete, updatedTime: now(Date.now())}
-                } else {
-                    return t
-                }
-            })
-            return {
-                ...previousState,
-                dataSource: s
-            }
+    addKey = (data) => {
+        return data.map((d) => {
+            return {...d, key: d.id}
         })
     }
-
-
-    handleTodoUpdate = (todo) => {
-        let newData = [...this.state.dataSource]
-        newData = newData.map((t) => {
-            if (t.id === todo.id) {
-                return {...t,
-                    todo: todo.todo,
-                    lastNote: todo.lastNote,
-                    updatedTime: now(Date.now()),
-                }
-            } else {
-                return t
-            }
-        })
-        this.setState({dataSource: newData})
-    }
-
 
 
     render() {
         let dataSource = this.props.dataSource
+        dataSource = this.addKey(dataSource)
+
         const pathname = this.props.history.location.pathname
         if (pathname === '/todo/complete') {
             dataSource = dataSource.filter(d => d.complete === true)
@@ -197,7 +171,7 @@ class Todo extends React.Component {
                     editable: col.editable,
                     dataIndex: col.dataIndex,
                     title: col.title,
-                    handleSave: this.handleTodoUpdate,
+                    handleSave: this.update,
                 }),
             }
         })
@@ -230,6 +204,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = ({
     handleFetchTodos,
+    handleUpdateTodo,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Todo);

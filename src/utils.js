@@ -46,7 +46,6 @@ const getTodos = () => {
     } else {
         todos = JSON.parse(todos)
     }
-
     return new Promise((res, rej) => {
         res(todos)
     })

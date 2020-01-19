@@ -1,9 +1,12 @@
 import React from 'react'
 import {Form, Input, Button} from 'antd'
-import {createTodo} from "../utils";
+import {useDispatch} from 'react-redux'
+import {handleAddTodo} from '../actions/todoAction'
 
 
 const TodoAdd = (props) => {
+    const dispatch = useDispatch()
+
     const handleSubmit = (e) => {
         e.preventDefault()
         props.form.validateFields((err, value) => {
@@ -11,7 +14,7 @@ const TodoAdd = (props) => {
                 if (value.note === undefined) {
                     value.note = 'N/A'
                 }
-                createTodo(value)
+                dispatch(handleAddTodo(value))
                 props.form.resetFields()
                 props.history.push('/')
             }
