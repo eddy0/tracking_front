@@ -1,10 +1,10 @@
-import React from 'react';
+import React from 'react'
 import {Table, Input, Button, Form} from 'antd'
 import {Link} from 'react-router-dom'
 import TableCta from './TableCTA'
-import {connect} from "react-redux";
-import {handleFetchTodos, handleUpdateTodo} from "../actions/todoAction";
-import {now} from '../utils'
+import {connect} from 'react-redux'
+import {handleFetchTodos, handleUpdateTodo} from '../actions/todoAction'
+import {now, saveTodos} from '../utils'
 
 
 const EditableContext = React.createContext()
@@ -96,38 +96,42 @@ class EditableCell extends React.Component {
 class Todo extends React.Component {
 
     columns = [
-            {
-                title: 'Todo',
-                dataIndex: 'todo',
-                key: 'todo',
-                editable: true,
-            },
-            {
-                title: 'Note',
-                dataIndex: 'note',
-                key: 'note',
-                editable: true,
-            },
-            {
-                title: 'Time',
-                dataIndex: 'updatedTime',
-                key: 'updatedTime',
-                width: '140px',
-                render: (text, record) => <span>{now(record.updatedTime)}</span>
-            },
-            {
-                title: 'Action',
-                dataIndex: 'action',
-                width: 'max-content',
-                render: (text, record) => <TableCta record={record} {...this.props} />
-            },
-        ]
+        {
+            title: 'Todo',
+            dataIndex: 'todo',
+            key: 'todo',
+            editable: true,
+        },
+        {
+            title: 'Note',
+            dataIndex: 'note',
+            key: 'note',
+            editable: true,
+        },
+        {
+            title: 'Time',
+            dataIndex: 'updatedTime',
+            key: 'updatedTime',
+            width: '140px',
+            render: (text, record) => <span>{now(record.updatedTime)}</span>
+        },
+        {
+            title: 'Action',
+            dataIndex: 'action',
+            width: 'max-content',
+            render: (text, record) => <TableCta record={record} {...this.props} />
+        },
+    ]
 
 
     componentDidMount() {
         if (this.props.dataSource.length === 0) {
             this.props.handleFetchTodos()
         }
+    }
+
+    componentWillUnmount() {
+        saveTodos(this.props.dataSource)
     }
 
 
@@ -207,4 +211,4 @@ const mapDispatchToProps = ({
     handleUpdateTodo,
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Todo);
+export default connect(mapStateToProps, mapDispatchToProps)(Todo)

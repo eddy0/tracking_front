@@ -1,4 +1,4 @@
-import {getTodos, now} from "../utils";
+import {getTodos, now, saveTodos} from '../utils'
 import * as uuid from 'uuid'
 
 const FETCH_TODO = 'FETCH_TODO'
@@ -7,6 +7,7 @@ const TOGGLE_TODO = 'TOGGLE_TODO'
 const DELETE_TODO = 'DELETE_TODO'
 const UPDATE_TODO = 'UPDATE_TODO'
 const UPDATE_COMMENT = 'UPDATE_COMMENT'
+const SAVE_TODO = 'SAVE_TODO'
 
 const actionFetchTodo = (todo) => {
     return {
@@ -93,12 +94,15 @@ const handleUpdateTodo = (target, todo) => (dispatch) => {
     dispatch(actionUpdateTodo(target, todo))
 }
 
+
+
 export {
     FETCH_TODO,
     CREATE_TODO,
     DELETE_TODO,
     UPDATE_TODO,
     TOGGLE_TODO,
+    SAVE_TODO,
     UPDATE_COMMENT,
     handleFetchTodos,
     handleToggleTodo,

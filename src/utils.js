@@ -6,21 +6,6 @@ const now = (unix) => {
     return new Date(unix).toLocaleDateString('en-US', {hour: '2-digit'})
 }
 
-const createTodo = ({todo, note}) => {
-    const t = {}
-    const id = uuid.v4()
-    const time = now(Date.now())
-    t.complete = false
-    t.id = id
-    t.key = id
-    t.createdTime = time
-    t.updatedTime = time
-    t.todo = todo
-    // t.note = [{note: note, time: time}]
-    t.note = []
-    t.lastNote = note
-    saveTodo(t)
-}
 
 const saveTodo = (todo) => {
     let todos = getTodos();
@@ -74,7 +59,6 @@ const saveComments = (notes, id) => {
 export {
 
     log,
-    createTodo,
     getTodos,
     saveTodos,
     now,

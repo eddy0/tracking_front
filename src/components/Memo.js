@@ -55,6 +55,8 @@ const Memo = (props) => {
         }
         const id = props.id
 
+        console.log(c)
+
         dispatch(handleUpdateComment(c, id))
 
         setLoading(false)
