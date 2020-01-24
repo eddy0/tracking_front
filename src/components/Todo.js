@@ -113,7 +113,7 @@ class Todo extends React.Component {
             dataIndex: 'updatedTime',
             key: 'updatedTime',
             width: '140px',
-            render: (text, record) => <span>{now(record.updatedTime)}</span>
+            render: (text, record) => <span>{now(record.updated_time)}</span>
         },
         {
             title: 'Action',
