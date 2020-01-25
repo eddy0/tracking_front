@@ -113,7 +113,7 @@ class Todo extends React.Component {
             dataIndex: 'updatedTime',
             key: 'updatedTime',
             width: '140px',
-            render: (text, record) => <span>{now(record.updated_time)}</span>
+            render: (text, record) => <span>{now(record.updatedTime)}</span>
         },
         {
             title: 'Action',
@@ -150,6 +150,7 @@ class Todo extends React.Component {
     render() {
         let dataSource = this.props.dataSource
         dataSource = this.addKey(dataSource)
+        console.log(dataSource)
 
         const pathname = this.props.history.location.pathname
         if (pathname === '/todo/complete') {

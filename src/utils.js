@@ -66,13 +66,46 @@ class TodoApi {
 }
 
 
+const transfer = (str) => {
+    let l = str.split('_')
+    if (l.length <= 1) {
+        return str
+    } else {
+        const r = l.map((item, index) => {
+            if (index === 0) {
+                return item
+            } else {
+                let a = item[0].toUpperCase()
+                a = a + item.slice(1)
+                return a
+            }
+        })
+        return r.join('')
+    }
+}
+
+
+const clean = (data) => {
+    return data.map((item) => {
+        let d = {}
+        Object.keys(item).map((key) => {
+            const value = item[key]
+            let k = transfer(key)
+            d[k] = value
+            return d
+        })
+        return d
+    })
+}
+
 
 const getTodos = () => {
     return new TodoApi().all().then((todos) => {
-        // todos = clean(todos)
+        todos = clean(todos)
         return todos
     })
 }
+
 
 const addTodos = () => {
     return new TodoApi().add().then((todo) => {
@@ -80,7 +113,6 @@ const addTodos = () => {
         return todo
     })
 }
-
 
 
 const saveComments = (notes, id) => {
