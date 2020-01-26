@@ -1,4 +1,5 @@
 import * as uuid from 'uuid'
+import axios from 'axios'
 
 
 const log = console.log.bind(console)
@@ -50,18 +51,26 @@ class TodoApi {
 
     add(data) {
         const url = this.baseUrl + 'add'
-        return fetch(url, {
-            method: 'POST',
-            body: data,
-        }).then((r) => r.json())
+        return axios({
+            url: url,
+            method: 'post',
+            data: data,
+        })
     }
 
     update(id, data) {
-        const url = this.baseUrl + 'todo/' + id
-        return fetch(url, {
-            method: 'POST',
-            body: JSON.stringify(data)
-        }).then((r) => r.json())
+        const url = this.baseUrl + id
+        return axios.patch(url, data)
+    }
+
+    toggle(id) {
+        const url = this.baseUrl + id
+        return axios.put(url)
+    }
+
+    comment(id, comment) {
+        const url = 'http://localhost:5000/comment/add'
+        return axios.post(url, {id, content: comment.content})
     }
 }
 
@@ -86,34 +95,63 @@ const transfer = (str) => {
 
 
 const clean = (data) => {
-    return data.map((item) => {
-        let d = {}
-        Object.keys(item).map((key) => {
-            const value = item[key]
-            let k = transfer(key)
-            d[k] = value
-            return d
-        })
-        return d
+    let d = {}
+    Object.keys(data).map((key) => {
+        const value = data[key]
+        let k = transfer(key)
+        d[k] = value
     })
+    return d
+
 }
 
 
 const getTodos = () => {
     return new TodoApi().all().then((todos) => {
-        todos = clean(todos)
+        todos = todos.map((t) => {
+            return clean(t)
+        })
         return todos
     })
 }
 
 
-const addTodos = () => {
-    return new TodoApi().add().then((todo) => {
-        console.log(todo)
-        return todo
+const addTodos = (todo) => {
+    return new TodoApi().add(todo).then((r) => {
+        if (r.status === 200) {
+            let d = clean(r.data)
+            return d
+        }
     })
 }
 
+const toggleTodo = (id) => {
+    return new TodoApi().toggle(id).then((r) => {
+        console.log('r', r)
+        return r
+    })
+}
+
+const updateTodo = (id, data) => {
+    return new TodoApi().update(id, data).then((r) => {
+        if (r.status === 200) {
+            console.log(r)
+            let d = clean(r.data)
+            return d
+        }
+    })
+
+}
+
+const addComment = (id, data) => {
+    return new TodoApi().comment(id, data).then((r) => {
+        if (r.status === 200) {
+            console.log(r)
+            let d = clean(r.data)
+            return d
+        }
+    })
+}
 
 const saveComments = (notes, id) => {
     return new Promise((res, rej) => {
@@ -139,6 +177,9 @@ export {
     getTodos,
     addTodos,
     saveTodos,
+    toggleTodo,
+    updateTodo,
+    addComment,
     now,
     saveComments,
 }

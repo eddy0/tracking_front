@@ -1,5 +1,7 @@
-import {getTodos, now, saveTodos} from '../utils'
+import {addComment, addTodos, getTodos, now, saveTodos, toggleTodo, updateTodo} from '../utils'
 import * as uuid from 'uuid'
+import TodoAdd from '../components/TodoAdd'
+
 
 const FETCH_TODO = 'FETCH_TODO'
 const CREATE_TODO = 'CREATE_TODO'
@@ -43,7 +45,9 @@ const handleAddTodo = (form) => (dispatch) => {
     }
     t.todo = form.todo
     t.note = form.note
-    dispatch(actionAddTodo(t))
+    addTodos(t).then(() => {
+        dispatch(actionAddTodo(t))
+    })
 }
 
 const actionHandleToggleTodo = (id) => {
@@ -53,11 +57,13 @@ const actionHandleToggleTodo = (id) => {
     }
 }
 
-const handleToggleTodo = (id) => {
-    return (dispach) => {
+const handleToggleTodo = (id) => (dispach) => {
+    return toggleTodo(id).then((r) => {
+        console.log('action todo', r)
         dispach(actionHandleToggleTodo(id))
-    }
+    })
 }
+
 
 const actionDeleteTodo = (id) => {
     return {
@@ -87,11 +93,15 @@ const actionUpdateComment = (comment, id) => {
 }
 
 const handleUpdateComment = (comment, id) => dispatch => {
-    dispatch(actionUpdateComment(comment, id))
+    return addComment(id, comment).then((r) => {
+        dispatch(actionUpdateComment(comment, id))
+    })
 }
 
 const handleUpdateTodo = (target, todo) => (dispatch) => {
-    dispatch(actionUpdateTodo(target, todo))
+    return updateTodo(todo.id, {[target]: todo[target]}).then((r) => {
+        dispatch(actionUpdateTodo(target, todo))
+    })
 }
 
 

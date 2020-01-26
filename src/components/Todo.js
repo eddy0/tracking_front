@@ -113,7 +113,7 @@ class Todo extends React.Component {
             dataIndex: 'updatedTime',
             key: 'updatedTime',
             width: '140px',
-            render: (text, record) => <span>{now(record.updatedTime)}</span>
+            render: (text, record) => <span>{now(record.updatedTime * 1000)}</span>
         },
         {
             title: 'Action',
@@ -128,10 +128,6 @@ class Todo extends React.Component {
         if (this.props.dataSource.length === 0) {
             this.props.handleFetchTodos()
         }
-    }
-
-    componentWillUnmount() {
-        saveTodos(this.props.dataSource)
     }
 
 
