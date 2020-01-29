@@ -8,14 +8,13 @@ import {now} from '../utils'
 import {EditableCell, EditableFormRow} from './TableCompoenent'
 
 
-
-class Todo extends React.Component {
+class AWB extends React.Component {
 
     columns = [
         {
-            title: 'Todo',
-            dataIndex: 'todo',
-            key: 'todo',
+            title: 'AWB',
+            dataIndex: 'awb',
+            key: 'awb',
             editable: true,
         },
         {
@@ -42,7 +41,7 @@ class Todo extends React.Component {
 
     componentDidMount() {
         if (this.props.dataSource.length === 0) {
-            this.props.handleFetchTodos()
+            this.props.handleFetchAWBs()
         }
     }
 
@@ -62,14 +61,6 @@ class Todo extends React.Component {
     render() {
         let dataSource = this.props.dataSource
         dataSource = this.addKey(dataSource)
-        console.log(dataSource)
-
-        const pathname = this.props.history.location.pathname
-        if (pathname === '/todo/complete') {
-            dataSource = dataSource.filter(d => d.complete === true)
-        } else if (pathname === '/todo/uncomplete') {
-            dataSource = dataSource.filter(d => d.complete === false)
-        }
 
         const components = {
             body: {
@@ -77,6 +68,7 @@ class Todo extends React.Component {
                 cell: EditableCell,
             },
         }
+
         const columns = this.columns.map(col => {
             if (!col.editable) {
                 return col
@@ -95,7 +87,7 @@ class Todo extends React.Component {
         return (
             <div>
                 <Button type="primary" style={{marginBottom: 16}}>
-                    <Link to='/todo/add'>
+                    <Link to='/awb/add'>
                         Add a new todo
                     </Link>
                 </Button>
@@ -120,8 +112,8 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = ({
-    handleFetchTodos,
-    handleUpdateTodo,
+    handleFetchAWBs,
+    handleUpdateAWB,
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Todo)
+export default connect(mapStateToProps, mapDispatchToProps)(AWB)

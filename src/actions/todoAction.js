@@ -1,4 +1,4 @@
-import {addComment, addTodos, getTodos, now, saveTodos, toggleTodo, updateTodo} from '../utils'
+import {addComment, addTodos, deleteTodo, getTodos, now, saveTodos, toggleTodo, updateTodo} from '../utils'
 import * as uuid from 'uuid'
 import TodoAdd from '../components/TodoAdd'
 
@@ -73,7 +73,10 @@ const actionDeleteTodo = (id) => {
 }
 
 const handleDeleteTodo = (id) => (dispatch) => {
-    dispatch(actionDeleteTodo(id))
+    return deleteTodo(id).then((r) => {
+        console.log(r)
+        dispatch(actionDeleteTodo(id))
+    })
 }
 
 const actionUpdateTodo = (target, todo) => {

@@ -19,6 +19,7 @@ const Nav = (props) => {
                 >
                     <Menu.Item key="/todo"><NavLink to={'/'}>Home</NavLink></Menu.Item>
                     <Menu.Item key="/todo/add"><NavLink to={'/todo/add'}>Add</NavLink></Menu.Item>
+                    <Menu.Item key="/awb"><NavLink to={'/awb'}>AWB List</NavLink></Menu.Item>
                 </Menu>
             </Header>
     );

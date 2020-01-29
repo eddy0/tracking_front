@@ -1,13 +1,12 @@
 import * as uuid from 'uuid'
 import axios from 'axios'
-
+import {handleDeleteTodo} from './actions/todoAction'
 
 const log = console.log.bind(console)
 
 const now = (unix) => {
     return new Date(unix).toLocaleDateString('en-US', {hour: '2-digit'})
 }
-
 
 const saveTodo = (todo) => {
     let todos = getTodos()
@@ -40,17 +39,17 @@ const getTodos1 = () => {
 
 class TodoApi {
     constructor() {
-        this.baseUrl = 'http://localhost:5000/todo/'
+        this.baseUrl = 'http://localhost:5000'
     }
 
 
     all() {
-        const url = this.baseUrl
+        const url = this.baseUrl + '/todo'
         return fetch(url).then(t => t.json())
     }
 
     add(data) {
-        const url = this.baseUrl + 'add'
+        const url = this.baseUrl + '/todo/add'
         return axios({
             url: url,
             method: 'post',
@@ -59,21 +58,26 @@ class TodoApi {
     }
 
     update(id, data) {
-        const url = this.baseUrl + id
+        const url = this.baseUrl + `/todo/${id}`
         return axios.patch(url, data)
     }
 
     toggle(id) {
-        const url = this.baseUrl + id
+        const url = this.baseUrl + `/todo/${id}`
         return axios.put(url)
     }
 
+    delete(id) {
+        const url = this.baseUrl + `/todo/${id}`
+        return axios.delete(url)
+    }
+
     comment(id, comment) {
-        const url = 'http://localhost:5000/comment/add'
+        const url = this.baseUrl + '/comment/add'
         return axios.post(url, {id, content: comment.content})
     }
-}
 
+}
 
 const transfer = (str) => {
     let l = str.split('_')
@@ -93,7 +97,6 @@ const transfer = (str) => {
     }
 }
 
-
 const clean = (data) => {
     let d = {}
     Object.keys(data).map((key) => {
@@ -105,7 +108,6 @@ const clean = (data) => {
 
 }
 
-
 const getTodos = () => {
     return new TodoApi().all().then((todos) => {
         todos = todos.map((t) => {
@@ -114,7 +116,6 @@ const getTodos = () => {
         return todos
     })
 }
-
 
 const addTodos = (todo) => {
     return new TodoApi().add(todo).then((r) => {
@@ -153,33 +154,18 @@ const addComment = (id, data) => {
     })
 }
 
-const saveComments = (notes, id) => {
-    return new Promise((res, rej) => {
-        setTimeout(() => {
-            let todos = getTodos()
-            todos = todos.map((t) => {
-                if (t.id === id) {
-                    return {...t, note: notes}
-                } else {
-                    return t
-                }
-            })
-            saveTodos(todos)
-            res()
-        }, 100)
-    })
+const deleteTodo = (id) => {
+    return new TodoApi().delete(id)
 }
 
-
 export {
-
     log,
     getTodos,
     addTodos,
     saveTodos,
     toggleTodo,
     updateTodo,
+    deleteTodo,
     addComment,
     now,
-    saveComments,
 }

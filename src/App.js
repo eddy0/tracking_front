@@ -5,6 +5,7 @@ import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom"
 import Nav from "./components/Nav"
 import {Layout} from "antd"
 import Todo from "./components/Todo";
+// import AWB from './components/AWB'
 
 const {Footer} = Layout
 
@@ -18,6 +19,7 @@ function App() {
                         <Redirect exact from={'/'} to={'/todo'}/>
                         <Route path='/todo/add' exact component={TodoAdd}/>
                         <Route path='/todo' component={Todo}/>
+                        {/*<Route path='/awb' component={AWB}/>*/}
                     </Switch>
                 </div>
                 <Footer style={{position: 'fixed', bottom: '0', width: '100vw', textAlign: 'center'}}>Ant Design ©2020
@@ -29,31 +31,3 @@ function App() {
 }
 
 export default App
-
-
-{/*<Route path='/todo' exact*/
-}
-{/*       render={() => <TodoList handleDeleteTodo={handleDeleteTodo}*/
-}
-{/*                               handleToggleTodo={handleToggleTodo} todos={ts}/>}/>*/
-}
-{/*<Route path='/todo/uncomplete' exact*/
-}
-{/*       render={() => <TodoList handleDeleteTodo={handleDeleteTodo}*/
-}
-{/*                               handleToggleTodo={handleToggleTodo}*/
-}
-{/*                               todos={ts.filter(t => t.complete === true)}/>}/>*/
-}
-{/*<Route path='/todo/complete' exact*/
-}
-{/*       render={() => <TodoList handleDeleteTodo={handleDeleteTodo}*/
-}
-{/*                               handleToggleTodo={handleToggleTodo}*/
-}
-{/*                               todos={ts.filter(t => t.complete === false)}/>}/>*/
-}
-{/*<Route path='/test' exact*/
-}
-{/*       render={() => <EditableTable handleTodoUpdate={handleTodoUpdate} todos={ts}/>}/>*/
-}
