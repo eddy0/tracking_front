@@ -3,9 +3,10 @@ import {Table, Button} from 'antd'
 import {Link} from 'react-router-dom'
 import TableCta from './TableCTA'
 import {connect} from 'react-redux'
-import {handleFetchTodos, handleUpdateTodo} from '../actions/todoAction'
-import {now} from '../utils'
+import {log, now} from '../utils'
 import {EditableCell, EditableFormRow} from './TableCompoenent'
+import {handleFetchAWB, handleUpdateAWB} from '../actions/awbAction'
+import AWBAction from './AWBAction'
 
 
 class AWB extends React.Component {
@@ -13,8 +14,8 @@ class AWB extends React.Component {
     columns = [
         {
             title: 'AWB',
-            dataIndex: 'awb',
-            key: 'awb',
+            dataIndex: 'todo',
+            key: 'todo',
             editable: true,
         },
         {
@@ -34,14 +35,14 @@ class AWB extends React.Component {
             title: 'Action',
             dataIndex: 'action',
             width: 'max-content',
-            render: (text, record) => <TableCta record={record} {...this.props} />
+            render: (text, record) => <AWBAction record={record} {...this.props} />
         },
     ]
 
 
     componentDidMount() {
         if (this.props.dataSource.length === 0) {
-            this.props.handleFetchAWBs()
+            this.props.handleFetchAWB()
         }
     }
 
@@ -104,15 +105,16 @@ class AWB extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    const todos = state.todos
+    const awbs = state.awbs
+    log(state, awbs)
     return {
-        dataSource: todos,
-        count: todos.length
+        dataSource: awbs,
+        count: awbs.length
     }
 }
 
 const mapDispatchToProps = ({
-    handleFetchAWBs,
+    handleFetchAWB,
     handleUpdateAWB,
 })
 

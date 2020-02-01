@@ -5,7 +5,7 @@ import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom"
 import Nav from "./components/Nav"
 import {Layout} from "antd"
 import Todo from "./components/Todo";
-// import AWB from './components/AWB'
+import AWB from './components/AWB'
 
 const {Footer} = Layout
 
@@ -19,7 +19,7 @@ function App() {
                         <Redirect exact from={'/'} to={'/todo'}/>
                         <Route path='/todo/add' exact component={TodoAdd}/>
                         <Route path='/todo' component={Todo}/>
-                        {/*<Route path='/awb' component={AWB}/>*/}
+                        <Route path='/awb' component={AWB}/>
                     </Switch>
                 </div>
                 <Footer style={{position: 'fixed', bottom: '0', width: '100vw', textAlign: 'center'}}>Ant Design ©2020

@@ -2,6 +2,7 @@ import * as uuid from 'uuid'
 import axios from 'axios'
 import {handleDeleteTodo} from './actions/todoAction'
 
+
 const log = console.log.bind(console)
 
 const now = (unix) => {
@@ -40,6 +41,7 @@ const getTodos1 = () => {
 class TodoApi {
     constructor() {
         this.baseUrl = 'http://localhost:5000'
+        // this.baseUrl = 'http://45.77.155.210'
     }
 
 
@@ -75,6 +77,44 @@ class TodoApi {
     comment(id, comment) {
         const url = this.baseUrl + '/comment/add'
         return axios.post(url, {id, content: comment.content})
+    }
+
+}
+
+class AirwayApi {
+    constructor() {
+        this.baseUrl = 'http://localhost:5000'
+        // this.baseUrl = 'http://45.77.155.210'
+    }
+
+
+    all() {
+        const url = this.baseUrl + '/awb'
+        return fetch(url).then(t => t.json())
+    }
+
+    add(data) {
+        const url = this.baseUrl + '/awb/add'
+        return axios({
+            url: url,
+            method: 'post',
+            data: data,
+        })
+    }
+
+    update(id, data) {
+        const url = this.baseUrl + `/awb/${id}`
+        return axios.patch(url, data)
+    }
+
+    toggle(id) {
+        const url = this.baseUrl + `/awb/${id}`
+        return axios.put(url)
+    }
+
+    delete(id) {
+        const url = this.baseUrl + `/awb/${id}`
+        return axios.delete(url)
     }
 
 }
@@ -117,8 +157,26 @@ const getTodos = () => {
     })
 }
 
+const getAwbs = () => {
+    return new AirwayApi().all().then((todos) => {
+        todos = todos.map((t) => {
+            return clean(t)
+        })
+        return todos
+    })
+}
+
 const addTodos = (todo) => {
     return new TodoApi().add(todo).then((r) => {
+        if (r.status === 200) {
+            let d = clean(r.data)
+            return d
+        }
+    })
+}
+
+const addAwbs = (awb) => {
+    return new AirwayApi().add(awb).then((r) => {
         if (r.status === 200) {
             let d = clean(r.data)
             return d
@@ -133,8 +191,26 @@ const toggleTodo = (id) => {
     })
 }
 
+const toggleAwb = (id) => {
+    return new AirwayApi().toggle(id).then((r) => {
+        console.log('r', r)
+        return r
+    })
+}
+
 const updateTodo = (id, data) => {
     return new TodoApi().update(id, data).then((r) => {
+        if (r.status === 200) {
+            console.log(r)
+            let d = clean(r.data)
+            return d
+        }
+    })
+
+}
+
+const updateAwb = (id, data) => {
+    return new AirwayApi().update(id, data).then((r) => {
         if (r.status === 200) {
             console.log(r)
             let d = clean(r.data)
@@ -158,6 +234,10 @@ const deleteTodo = (id) => {
     return new TodoApi().delete(id)
 }
 
+const deleteAwb = (id) => {
+    return new AirwayApi().delete(id)
+}
+
 export {
     log,
     getTodos,
@@ -167,5 +247,10 @@ export {
     updateTodo,
     deleteTodo,
     addComment,
+    getAwbs,
+    addAwbs,
+    toggleAwb,
+    updateAwb,
+    deleteAwb,
     now,
 }
