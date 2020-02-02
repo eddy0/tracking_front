@@ -1,4 +1,10 @@
-import {addTodos, deleteTodo, getTodos, toggleTodo, updateTodo} from '../utils'
+import {
+    addAwbs,
+    deleteAwb,
+    getAwbs,
+    toggleAwb,
+    updateAwb,
+} from '../utils'
 
 
 const FETCH_AWB = 'FETCH_AWB'
@@ -17,7 +23,7 @@ const actionFetchAWB = (awb) => {
 
 const handleFetchAWB = () => {
     return (dispatch) => {
-        getTodos().then((awb) => {
+        getAwbs().then((awb) => {
             dispatch(actionFetchAWB(awb))
         })
     }
@@ -31,7 +37,7 @@ const actionAddAWB = (awb) => {
 }
 
 const handleAddAWB = (form) => (dispatch) => {
-    addTodos(form).then((t) => {
+    addAwbs(form).then((t) => {
         dispatch(actionAddAWB(t))
     })
 }
@@ -44,7 +50,7 @@ const actionHandleToggleAWB = (id) => {
 }
 
 const handleToggleAWB = (id) => (dispach) => {
-    return toggleTodo(id).then((r) => {
+    return toggleAwb(id).then((r) => {
         console.log('action awb', r)
         dispach(actionHandleToggleAWB(id))
     })
@@ -59,7 +65,7 @@ const actionDeleteAWB = (id) => {
 }
 
 const handleDeleteAWB = (id) => (dispatch) => {
-    return deleteTodo(id).then((r) => {
+    return deleteAwb(id).then((r) => {
         console.log(r)
         dispatch(actionDeleteAWB(id))
     })
@@ -75,7 +81,7 @@ const actionUpdateAWB = (target, awb) => {
 
 
 const handleUpdateAWB = (target, awb) => (dispatch) => {
-    return updateTodo(awb.id, {[target]: awb[target]}).then((r) => {
+    return updateAwb(awb.id, {[target]: awb[target]}).then((r) => {
         dispatch(actionUpdateAWB(target, awb))
     })
 }

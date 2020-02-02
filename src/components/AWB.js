@@ -14,8 +14,8 @@ class AWB extends React.Component {
     columns = [
         {
             title: 'AWB',
-            dataIndex: 'todo',
-            key: 'todo',
+            dataIndex: 'awb',
+            key: 'awb',
             editable: true,
         },
         {
@@ -48,7 +48,7 @@ class AWB extends React.Component {
 
 
     update = ({target, ...todo}) => {
-        this.props.handleUpdateTodo(target, todo)
+        this.props.handleUpdateAWB(target, todo)
     }
 
 
@@ -89,7 +89,7 @@ class AWB extends React.Component {
             <div>
                 <Button type="primary" style={{marginBottom: 16}}>
                     <Link to='/awb/add'>
-                        Add a new todo
+                        Add a new awb
                     </Link>
                 </Button>
                 <Table
@@ -106,7 +106,6 @@ class AWB extends React.Component {
 
 const mapStateToProps = (state) => {
     const awbs = state.awbs
-    log(state, awbs)
     return {
         dataSource: awbs,
         count: awbs.length

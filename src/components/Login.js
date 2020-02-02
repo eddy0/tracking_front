@@ -1,5 +1,6 @@
 import {Form, Icon, Input, Button, Checkbox} from 'antd'
 import React from 'react'
+import {Link} from 'react-router-dom'
 
 
 class NormalLoginForm extends React.Component {
@@ -48,13 +49,13 @@ class NormalLoginForm extends React.Component {
                     <Button type="primary" htmlType="submit" className="login-form-button">
                         Log in
                     </Button>
-                    Or <a href="">register now!</a>
+                    Or <Link to='/register'>register now!</Link>
                 </Form.Item>
             </Form>
         )
     }
 }
 
-const WrappedNormalLoginForm = Form.create({name: 'normal_login'})(NormalLoginForm)
+const Login = Form.create({name: 'normal_login'})(NormalLoginForm)
 
-export default WrappedNormalLoginForm
+export default Login

@@ -1,13 +1,32 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import './App.css'
 import TodoAdd from './components/TodoAdd'
-import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom"
-import Nav from "./components/Nav"
-import {Layout} from "antd"
-import Todo from "./components/Todo";
+import {BrowserRouter, Redirect, Route, Switch} from 'react-router-dom'
+import Nav from './components/Nav'
+import {Layout} from 'antd'
+import Todo from './components/Todo'
 import AWB from './components/AWB'
+import AirWayBillAdd from './components/AirWayBillAdd'
+import {useDispatch, useSelector} from 'react-redux'
+import Login from './components/Login'
+import Register from './components/Register'
+
 
 const {Footer} = Layout
+
+const PrivateRoute = ({component: Component, ...rest}) => {
+    const user = useSelector(state => state.user)
+
+    return (<Route {...rest} render={(props) => (
+            user !== null
+                ? <Component {...props} />
+                : <Redirect to={{
+                    pathname: '/login',
+                    state: {from: props.location}
+                }}/>
+        )}/>
+    )
+}
 
 function App() {
     return (
@@ -16,10 +35,13 @@ function App() {
                 <Nav/>
                 <div className="container" style={{paddingTop: '100px'}}>
                     <Switch>
-                        <Redirect exact from={'/'} to={'/todo'}/>
-                        <Route path='/todo/add' exact component={TodoAdd}/>
-                        <Route path='/todo' component={Todo}/>
-                        <Route path='/awb' component={AWB}/>
+                        <Route path='/login' exact component={Login}/>
+                        <Route path='/register' exact component={Register}/>
+                        <PrivateRoute exact from={'/'} to={'/todo'}/>
+                        <PrivateRoute path='/todo/add' exact component={TodoAdd}/>
+                        <PrivateRoute path='/awb/add' exact component={AirWayBillAdd}/>
+                        <PrivateRoute path='/todo' component={Todo}/>
+                        <PrivateRoute path='/awb' component={AWB}/>
                     </Switch>
                 </div>
                 <Footer style={{position: 'fixed', bottom: '0', width: '100vw', textAlign: 'center'}}>Ant Design ©2020
