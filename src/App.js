@@ -17,6 +17,8 @@ const {Footer} = Layout
 const PrivateRoute = ({component: Component, ...rest}) => {
     const user = useSelector(state => state.user)
 
+    console.log(user)
+
     return (<Route {...rest} render={(props) => (
             user !== null
                 ? <Component {...props} />
@@ -37,11 +39,12 @@ function App() {
                     <Switch>
                         <Route path='/login' exact component={Login}/>
                         <Route path='/register' exact component={Register}/>
-                        <PrivateRoute exact from={'/'} to={'/todo'}/>
+                        {/*<Route exact from={'/'} to={'/todo'}/>*/}
                         <PrivateRoute path='/todo/add' exact component={TodoAdd}/>
                         <PrivateRoute path='/awb/add' exact component={AirWayBillAdd}/>
                         <PrivateRoute path='/todo' component={Todo}/>
                         <PrivateRoute path='/awb' component={AWB}/>
+                        <PrivateRoute exact path='/' component={Todo}/>
                     </Switch>
                 </div>
                 <Footer style={{position: 'fixed', bottom: '0', width: '100vw', textAlign: 'center'}}>Ant Design ©2020

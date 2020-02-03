@@ -21,6 +21,10 @@ const saveTodo = (todo) => {
     return todos
 }
 
+const saveToken = (token) => {
+    window.localStorage.token = token
+}
+
 const saveTodos = (todos) => {
     window.localStorage.clear()
     window.localStorage.todos = JSON.stringify(todos)
@@ -38,16 +42,31 @@ const getTodos1 = () => {
     })
 }
 
-class TodoApi {
+class Api {
     constructor() {
         this.baseUrl = 'http://localhost:5000'
         // this.baseUrl = 'http://45.77.155.210'
+        this.token = this.getToken()
     }
 
+    getToken() {
+        let token = window.localStorage.token
+        if (token === null) {
+            token = ''
+        }
+        return token
+    }
+}
+
+class TodoApi extends Api {
 
     all() {
         const url = this.baseUrl + '/todo'
-        return fetch(url).then(t => t.json())
+        return axios({
+            url: url,
+            method: 'post',
+            headers: {'z-token': this.token}
+        })
     }
 
     add(data) {
@@ -56,6 +75,7 @@ class TodoApi {
             url: url,
             method: 'post',
             data: data,
+            headers: {'z-token': this.token}
         })
     }
 
@@ -81,16 +101,15 @@ class TodoApi {
 
 }
 
-class AirwayApi {
-    constructor() {
-        this.baseUrl = 'http://localhost:5000'
-        // this.baseUrl = 'http://45.77.155.210'
-    }
-
+class AirwayApi extends Api {
 
     all() {
         const url = this.baseUrl + '/awb'
-        return fetch(url).then(t => t.json())
+        return axios({
+            url: url,
+            method: 'get',
+            headers: {'z-token': this.token}
+        })
     }
 
     add(data) {
@@ -99,17 +118,26 @@ class AirwayApi {
             url: url,
             method: 'post',
             data: data,
+            headers: {'z-token': this.token}
         })
     }
 
     update(id, data) {
         const url = this.baseUrl + `/awb/${id}`
-        return axios.patch(url, data)
+        return axios({
+            method: 'patch',
+            url,
+            data,
+            headers: {'z-token': this.token}
+        })
     }
 
     toggle(id) {
         const url = this.baseUrl + `/awb/${id}`
-        return axios.put(url)
+        return axios({
+            method: 'put',
+            url,
+        })
     }
 
     delete(id) {
@@ -117,6 +145,26 @@ class AirwayApi {
         return axios.delete(url)
     }
 
+}
+
+class UserApi extends Api {
+    register(data) {
+        const url = this.baseUrl + '/register'
+        return axios({
+            url: url,
+            method: 'post',
+            data: data,
+        })
+    }
+
+    login(data) {
+        const url = this.baseUrl + '/login'
+        return axios({
+            url: url,
+            method: 'post',
+            data: data,
+        })
+    }
 }
 
 const transfer = (str) => {
@@ -238,6 +286,14 @@ const deleteAwb = (id) => {
     return new AirwayApi().delete(id)
 }
 
+const register = (form) => {
+    return new UserApi().register(form)
+}
+
+const login = (form) => {
+    return new UserApi().login(form)
+}
+
 export {
     log,
     getTodos,
@@ -252,5 +308,8 @@ export {
     toggleAwb,
     updateAwb,
     deleteAwb,
+    register,
+    login,
+    saveToken,
     now,
 }

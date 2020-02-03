@@ -10,6 +10,8 @@ import {
 } from 'antd'
 import React from 'react'
 import {Link} from 'react-router-dom'
+import {handleRegister} from '../actions/userAction'
+import {connect} from 'react-redux'
 
 
 const {Option} = Select
@@ -25,7 +27,9 @@ class RegistrationForm extends React.Component {
         e.preventDefault()
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values)
+                console.log('Received values of form: ', values, this.props)
+                this.props.handleRegister(values)
+
             }
         })
     }
@@ -78,14 +82,6 @@ class RegistrationForm extends React.Component {
                 },
             },
         }
-        const prefixSelector = getFieldDecorator('prefix', {
-            initialValue: '1',
-        })(
-            <Select style={{width: 70}}>
-                <Option value="1">+1</Option>
-                <Option value="86">+86</Option>
-            </Select>,
-        )
 
 
         return (
@@ -93,10 +89,7 @@ class RegistrationForm extends React.Component {
                 <Form.Item label="username">
                     {getFieldDecorator('username', {
                         rules: [
-                            {
-                                type: 'username',
-                                message: 'The input is not valid username',
-                            },
+
                             {
                                 required: true,
                                 message: 'Please input your username!',
@@ -134,17 +127,17 @@ class RegistrationForm extends React.Component {
                 <Form.Item
                     label={
                         <span>
-              Nickname&nbsp;
+                            Nickname&nbsp;
                             <Tooltip title="What do you want others to call you?">
-                <Icon type="question-circle-o"/>
-              </Tooltip>
-            </span>
-                    }
-                >
+                                <Icon type="question-circle-o"/>
+                            </Tooltip>
+                        </span>
+                    }>
                     {getFieldDecorator('nickname', {
-                        rules: [{required: true, message: 'Please input your nickname!', whitespace: true}],
+                        rules: [{required: false, message: 'Please input your nickname!', whitespace: true}],
                     })(<Input/>)}
                 </Form.Item>
+
                 <Form.Item label="E-mail">
                     {getFieldDecorator('email', {
                         rules: [
@@ -162,34 +155,36 @@ class RegistrationForm extends React.Component {
 
                 <Form.Item label="Phone Number">
                     {getFieldDecorator('phone', {
-                        rules: [{required: true, message: 'Please input your phone number!'}],
-                    })(<Input addonBefore={prefixSelector} style={{width: '100%'}}/>)}
+                        rules: [{required: false, message: 'Please input your phone number!'}],
+                    })(<Input style={{width: '100%'}}/>)}
                 </Form.Item>
-                <Form.Item label="Captcha" extra="We must make sure that your are a human.">
-                    <Row gutter={8}>
-                        <Col span={12}>
-                            {getFieldDecorator('captcha', {
-                                rules: [{required: true, message: 'Please input the captcha you got!'}],
-                            })(<Input/>)}
-                        </Col>
-                        <Col span={12}>
-                            <Button>Get captcha</Button>
-                        </Col>
-                    </Row>
-                </Form.Item>
+
                 <Form.Item {...tailFormItemLayout}>
                     <Button type="primary" htmlType="submit">
                         Register
                     </Button>
                     already has account? <Link to='/login'>login now!</Link>
-
                 </Form.Item>
+                {/*<Form.Item label="Captcha" extra="We must make sure that your are a human.">*/}
+                {/*    <Row gutter={8}>*/}
+                {/*        <Col span={12}>*/}
+                {/*            {getFieldDecorator('captcha', {*/}
+                {/*                rules: [{required: true, message: 'Please input the captcha you got!'}],*/}
+                {/*            })(<Input/>)}*/}
+                {/*        </Col>*/}
+                {/*        <Col span={12}>*/}
+                {/*            <Button>Get captcha</Button>*/}
+                {/*        </Col>*/}
+                {/*    </Row>*/}
+                {/*</Form.Item>*/}
+
 
             </Form>
         )
     }
 }
 
+
 const Register = Form.create({name: 'register'})(RegistrationForm)
 
-export default Register
+export default connect(null, {handleRegister})(Register)

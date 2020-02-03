@@ -1,6 +1,8 @@
 import {Form, Icon, Input, Button, Checkbox} from 'antd'
 import React from 'react'
 import {Link} from 'react-router-dom'
+import {handleLogin} from '../actions/userAction'
+import {connect} from 'react-redux'
 
 
 class NormalLoginForm extends React.Component {
@@ -9,6 +11,10 @@ class NormalLoginForm extends React.Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values)
+                this.props.handleLogin(values, () => {
+                    console.log(this.props)
+                    this.props.history.push('/todo')
+                })
             }
         })
     }
@@ -58,4 +64,4 @@ class NormalLoginForm extends React.Component {
 
 const Login = Form.create({name: 'normal_login'})(NormalLoginForm)
 
-export default Login
+export default connect(null, {handleLogin})(Login)
