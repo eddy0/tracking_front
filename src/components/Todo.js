@@ -43,6 +43,7 @@ class Todo extends React.Component {
     componentDidMount() {
         if (this.props.dataSource.length === 0) {
             this.props.handleFetchTodos((r) => {
+                console.log('callback')
                 this.props.history.push('/login')
 
             })

@@ -42,6 +42,9 @@ const getTodos1 = () => {
     })
 }
 
+axios.defaults.headers['Content-Type'] = 'application/json'
+
+
 class Api {
     constructor() {
         this.baseUrl = 'http://localhost:5000'
@@ -64,16 +67,11 @@ class TodoApi extends Api {
 
     all() {
         const url = this.baseUrl + '/todo/'
-        log('todo all', url)
-        axios.defaults.headers['Content-Type'] = 'application/json'
-
-        let r = axios({
+        return axios({
             url: url,
             method: 'get',
-            crossorigin: true,
             headers: {'z-token': this.getToken()},
         })
-        return r
 
     }
 
@@ -83,28 +81,36 @@ class TodoApi extends Api {
             url: url,
             method: 'post',
             data: data,
-            headers: {'z-token': this.token},
+            headers: {'z-token': this.getToken()}
         })
     }
 
     update(id, data) {
         const url = this.baseUrl + `/todo/${id}`
-        return axios.patch(url, data)
+        return axios.patch(url, data, {
+            headers: {'z-token': this.getToken()}
+        })
     }
 
     toggle(id) {
         const url = this.baseUrl + `/todo/${id}`
-        return axios.put(url)
+        return axios.put(url, '', {
+            headers: {'z-token': this.getToken()}
+        })
     }
 
     delete(id) {
         const url = this.baseUrl + `/todo/${id}`
-        return axios.delete(url)
+        return axios.delete(url, {
+            headers: {'z-token': this.getToken()}
+        })
     }
 
     comment(id, comment) {
         const url = this.baseUrl + '/comment/add'
-        return axios.post(url, {id, content: comment.content})
+        return axios.post(url, {id, content: comment.content}, {
+            headers: {'z-token': this.getToken()}
+        })
     }
 
 }
@@ -112,11 +118,11 @@ class TodoApi extends Api {
 class AirwayApi extends Api {
 
     all() {
-        const url = this.baseUrl + '/awb'
+        const url = this.baseUrl + '/awb/'
         return axios({
             url: url,
             method: 'get',
-            headers: {'z-token': this.token}
+            headers: {'z-token': this.getToken()}
         })
     }
 
@@ -126,7 +132,7 @@ class AirwayApi extends Api {
             url: url,
             method: 'post',
             data: data,
-            headers: {'z-token': this.token}
+            headers: {'z-token': this.getToken()}
         })
     }
 
@@ -145,12 +151,16 @@ class AirwayApi extends Api {
         return axios({
             method: 'put',
             url,
+            headers: {'z-token': this.getToken()}
         })
     }
 
     delete(id) {
         const url = this.baseUrl + `/awb/${id}`
-        return axios.delete(url)
+        return axios.delete(url,
+            {
+                headers: {'z-token': this.getToken()}
+            })
     }
 
 }
@@ -212,24 +222,37 @@ const clean = (data) => {
         d[k] = value
     })
     return d
-
 }
 
 const getTodos = () => {
-    return new TodoApi().all().then(r => r.data).then((todos) => {
-        todos = todos.map((t) => {
-            return clean(t)
-        })
-        return todos
+    return new TodoApi().all().then((r) => {
+        if (r.status === 200) {
+            if (r.data['direct_url'] !== undefined) {
+                console.log(r)
+            }
+            let todos = r.data.map((t) => {
+                return clean(t)
+            })
+            return todos
+        } else {
+            return []
+        }
     })
 }
 
 const getAwbs = () => {
-    return new AirwayApi().all().then((todos) => {
-        todos = todos.map((t) => {
-            return clean(t)
-        })
-        return todos
+    return new AirwayApi().all().then((r) => {
+        if (r.status === 200) {
+            let todos = r.data.map((t) => {
+                return clean(t)
+            })
+            return todos
+        } else {
+            return []
+        }
+    }).catch((err) => {
+        log('err', err)
+        return []
     })
 }
 

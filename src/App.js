@@ -28,6 +28,7 @@ const PrivateRoute = ({component: Component, ...rest}) => {
 
     return (<Route {...rest} render={(props) => {
             const user = window.localStorage.token
+            log('usr', user)
             if (user === undefined) {
                 return <Redirect to={{
                     pathname: '/login',
