@@ -7,26 +7,35 @@ import {Layout} from 'antd'
 import Todo from './components/Todo'
 import AWB from './components/AWB'
 import AirWayBillAdd from './components/AirWayBillAdd'
-import {useDispatch, useSelector} from 'react-redux'
+import {shallowEqual, useDispatch, useSelector} from 'react-redux'
 import Login from './components/Login'
 import Register from './components/Register'
+import {handleAuth} from './actions/userAction'
+import {log} from './utils'
 
 
 const {Footer} = Layout
 
 const PrivateRoute = ({component: Component, ...rest}) => {
-    const user = useSelector(state => state.user)
+    // const user = useSelector(state => state.user)
+    // const dispach = useDispatch()
+    //
+    // React.useEffect(() => {
+    //     dispach(handleAuth())
+    // }, [])
+    //
+    // console.log(user)
 
-    console.log(user)
-
-    return (<Route {...rest} render={(props) => (
-            user !== null
-                ? <Component {...props} />
-                : <Redirect to={{
+    return (<Route {...rest} render={(props) => {
+            const user = window.localStorage.token
+            if (user === undefined) {
+                return <Redirect to={{
                     pathname: '/login',
                     state: {from: props.location}
                 }}/>
-        )}/>
+            }
+            return <Component {...props} />
+        }}/>
     )
 }
 

@@ -42,7 +42,10 @@ class Todo extends React.Component {
 
     componentDidMount() {
         if (this.props.dataSource.length === 0) {
-            this.props.handleFetchTodos()
+            this.props.handleFetchTodos((r) => {
+                this.props.history.push('/login')
+
+            })
         }
     }
 

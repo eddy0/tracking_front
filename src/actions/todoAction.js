@@ -1,4 +1,4 @@
-import {addComment, addTodos, deleteTodo, getTodos, now, saveTodos, toggleTodo, updateTodo} from '../utils'
+import {addComment, addTodos, deleteTodo, getTodos, log, now, saveTodos, toggleTodo, updateTodo} from '../utils'
 import * as uuid from 'uuid'
 import TodoAdd from '../components/TodoAdd'
 
@@ -18,10 +18,13 @@ const actionFetchTodo = (todo) => {
     }
 }
 
-const handleFetchTodos = () => {
+const handleFetchTodos = (callback) => {
     return (dispatch) => {
         getTodos().then((todos) => {
             dispatch(actionFetchTodo(todos))
+        }).catch((r) => {
+            console.log(r)
+            callback()
         })
     }
 }

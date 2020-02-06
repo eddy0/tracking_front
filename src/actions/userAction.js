@@ -1,4 +1,4 @@
-import {login, register, saveToken} from '../utils'
+import {getAuth, log, login, register, saveToken} from '../utils'
 
 
 const LOGIN_USER = 'LOGIN_USER'
@@ -11,16 +11,23 @@ const actionUser = (user) => {
     }
 }
 
+const handleAuth = () => dispatch => {
+    const token = window.localStorage.token
+    if (token !== undefined) {
+        getAuth().then(user => {
+            console.log(user)
+            dispatch(actionUser(user))
+        })
+    } else {
+        dispatch(actionUser(null))
+    }
+}
+
 const handleLogin = (form, cb) => dispatch => {
-    return login(form).then(r => {
-        console.log(r)
-        if (r.status === 200 && r.data.user !== null) {
-            dispatch(actionUser(r.data.user))
-            const token = r.data.token
-            saveToken(token)
-            cb()
-        } else {
-        }
+    return login(form).then(user => {
+        console.log(user)
+        dispatch(actionUser(user))
+        cb()
     })
 }
 
@@ -41,4 +48,5 @@ export {
     REGISTER_USER,
     handleRegister,
     handleLogin,
+    handleAuth,
 }
