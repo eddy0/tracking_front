@@ -60,18 +60,19 @@ class Api {
 }
 
 
-
 class TodoApi extends Api {
 
     all() {
-        const url = this.baseUrl + '/todo'
+        const url = this.baseUrl + '/todo/'
         log('todo all', url)
-        let r =  axios({
+        axios.defaults.headers['Content-Type'] = 'application/json'
+
+        let r = axios({
             url: url,
             method: 'get',
+            crossorigin: true,
             headers: {'z-token': this.getToken()},
         })
-        log('r', r)
         return r
 
     }
@@ -215,7 +216,7 @@ const clean = (data) => {
 }
 
 const getTodos = () => {
-    return new TodoApi().all().then((todos) => {
+    return new TodoApi().all().then(r => r.data).then((todos) => {
         todos = todos.map((t) => {
             return clean(t)
         })
