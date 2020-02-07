@@ -6,6 +6,8 @@ import {connect} from 'react-redux'
 
 
 class NormalLoginForm extends React.Component {
+
+
     handleSubmit = e => {
         e.preventDefault()
         this.props.form.validateFields((err, values) => {
@@ -18,6 +20,7 @@ class NormalLoginForm extends React.Component {
             }
         })
     }
+
 
     render() {
         const {getFieldDecorator} = this.props.form
@@ -64,4 +67,11 @@ class NormalLoginForm extends React.Component {
 
 const Login = Form.create({name: 'normal_login'})(NormalLoginForm)
 
-export default connect(null, {handleLogin})(Login)
+
+const mapStateToProps = (state) => {
+    return {
+        user: state.user
+    }
+}
+
+export default connect(mapStateToProps, {handleLogin})(Login)

@@ -1,9 +1,9 @@
 import React from 'react'
 import {Button, Divider, Popconfirm} from 'antd'
 import {useDispatch} from 'react-redux'
-import {handleDeleteTodo, handleToggleTodo} from '../actions/todoAction'
-import CtaDetails from './CtaDetails'
+import {handleDeleteTodo} from '../actions/todoAction'
 import {parse_awb} from '../config_awb'
+import {handleToggleAWB, handleDeleteAWB} from '../actions/awbAction'
 
 
 const AWBAction = (props) => {
@@ -22,12 +22,12 @@ const AWBAction = (props) => {
                 component
             }
             <Divider type="vertical"/>
-            <Button onClick={() => dispatch(handleToggleTodo(todo.id))}
+            <Button onClick={() => dispatch(handleToggleAWB(todo.id))}
                     type={todo.complete === true ? 'default' : 'primary'}>
                 {todo.complete === true ? 'undo' : 'done'}
             </Button>
             <Divider type="vertical"/>
-            <Popconfirm title="Sure to delete?" onConfirm={() => dispatch(handleDeleteTodo(record.key))}>
+            <Popconfirm title="Sure to delete?" onConfirm={() => dispatch(handleDeleteAWB(record.key))}>
                 <Button type={'dashed'}>Delete</Button>
             </Popconfirm>
         </div>

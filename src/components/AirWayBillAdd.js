@@ -21,13 +21,37 @@ const AirWayBillAdd = (props) => {
         })
     }
 
+    const valid = (value) => {
+        const pattern = /\d{3}-\d{8}/
+        return value.match(pattern)
+    }
+
+    const awbRules = (rule, value, callback) => {
+        const { form } = props
+        console.log(value, form.validateFields)
+
+        if (value.length === 12 && valid(value) ) {
+            callback()
+        } else {
+            callback('format: XXX-XXXXXXXX')
+        }
+
+    }
+
+
+
     const {getFieldDecorator} = props.form
 
     return (
         <Form className='todo-add-box' onSubmit={handleSubmit}>
-            <Form.Item>
+            <Form.Item hasFeedback>
                 {getFieldDecorator('awb', {
-                    rules: [{required: true, message: 'Please input your awb!'}],
+                    rules: [
+                        {required: true, message: 'Please input your awb!'},
+                        {
+                            validator: awbRules,
+                        },
+                    ],
                 })(
                     <Input placeholder="awb"/>
                 )}
