@@ -17,20 +17,20 @@ import {log} from './utils'
 const {Footer} = Layout
 
 const PrivateRoute = ({component: Component, ...rest}) => {
-    const user = useSelector(state => state.user, shallowEqual)
-    const dispach = useDispatch()
-
-    React.useEffect(() => {
-        console.log('useeffect')
-        dispach(handleAuth())
-    }, [user])
-
-    console.log('dispatch user', user)
+    // const user = useSelector(state => state.user, shallowEqual)
+    // const dispach = useDispatch()
+    //
+    // React.useEffect(() => {
+    //     console.log('useeffect')
+    //     dispach(handleAuth())
+    // }, [user])
+    //
+    // console.log('dispatch user', user)
 
     return (<Route {...rest} render={(props) => {
-            // const user = window.localStorage.token
+            const user = window.localStorage.token
             log('usr', user)
-            if (user === null) {
+            if (user === undefined) {
                 return <Redirect to={{
                     pathname: '/login',
                     state: {from: props.location}

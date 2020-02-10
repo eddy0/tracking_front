@@ -47,8 +47,8 @@ axios.defaults.headers['Content-Type'] = 'application/json'
 
 class Api {
     constructor() {
-        this.baseUrl = 'http://localhost:5000'
-        // this.baseUrl = 'http://45.77.155.210'
+        // this.baseUrl = 'http://localhost:5000'
+        this.baseUrl = 'http://45.77.155.210'
         this.token = this.getToken()
     }
 

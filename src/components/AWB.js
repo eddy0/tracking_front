@@ -1,7 +1,6 @@
 import React from 'react'
 import {Table, Button} from 'antd'
 import {Link} from 'react-router-dom'
-import TableCta from './TableCTA'
 import {connect} from 'react-redux'
 import {log, now} from '../utils'
 import {EditableCell, EditableFormRow} from './TableCompoenent'
