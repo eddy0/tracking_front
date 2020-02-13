@@ -1,8 +1,13 @@
 import {Button} from 'antd'
+import React from 'react'
+import Router from 'next/router'
 
 
 function Home() {
-    return <div>Welcomesdf ddto Next.js!<Button type={'primary'}>ant</Button></div>
+    React.useEffect(() => {
+        Router.push('/todo')
+    })
+    return null
 }
 
 export default Home
