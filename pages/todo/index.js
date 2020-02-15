@@ -9,11 +9,14 @@ import {useRouter} from 'next/router'
 import Link from 'next/link'
 
 
-const Todo = function () {
+const Todo = function (props) {
 
     let dataSource = useSelector((state) => state.todos)
     const count = dataSource.length
     const dispatch = useDispatch()
+    const router = useRouter()
+
+
     let columns = [
         {
             title: 'Todo',
@@ -38,10 +41,9 @@ const Todo = function () {
             title: 'Action',
             dataIndex: 'action',
             width: 'max-content',
-            render: (text, record) => <TableCta record={record} {...this.props} />
+            render: (text, record) => <TableCta record={record} {...props} />
         },
     ]
-    const router = useRouter()
 
     React.useEffect(() => {
         if (count === 0) {
@@ -65,6 +67,7 @@ const Todo = function () {
 
 
     dataSource = addKey(dataSource)
+
     console.log(dataSource)
 
     const pathname = router.pathname
@@ -92,10 +95,12 @@ const Todo = function () {
                 editable: col.editable,
                 dataIndex: col.dataIndex,
                 title: col.title,
-                handleSave: this.update,
+                handleSave: update,
             }),
         }
     })
+
+
     return (
         <div>
             <Button type="primary" style={{marginBottom: 16}}>
@@ -116,19 +121,20 @@ const Todo = function () {
     )
 }
 
-const mapStateToProps = (state) => {
-    const todos = state.todos
-    return {
-        dataSource: todos,
-        count: todos.length
-    }
-}
+export default Todo
 
-const mapDispatchToProps = ({
-    handleFetchTodos,
-    handleUpdateTodo,
-})
+// const mapStateToProps = (state) => {
+//     const todos = state.todos
+//     return {
+//         dataSource: todos,
+//         count: todos.length
+//     }
+// }
+//
+// const mapDispatchToProps = ({
+//     handleFetchTodos,
+//     handleUpdateTodo,
+// })
 
 // export default connect(mapStateToProps, mapDispatchToProps)(Todo)
 
-export default Todo

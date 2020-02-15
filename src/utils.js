@@ -1,6 +1,6 @@
-import * as uuid from 'uuid'
+import {notification, message} from 'antd'
+
 import axios from 'axios'
-import {handleDeleteTodo} from './actions/todoAction'
 
 
 const log = console.log.bind(console)
@@ -47,8 +47,8 @@ axios.defaults.headers['Content-Type'] = 'application/json'
 
 class Api {
     constructor() {
-        // this.baseUrl = 'http://localhost:5000'
-        this.baseUrl = 'http://45.77.155.210'
+        this.baseUrl = 'http://localhost:5000'
+        // this.baseUrl = 'http://45.77.155.210'
         this.token = this.getToken()
     }
 
@@ -224,12 +224,22 @@ const clean = (data) => {
     return d
 }
 
+const msg = () => {
+    return message.success('This is a success message');
+}
+
+/*
+status
+err
+todos
+ */
+
 const getTodos = () => {
     return new TodoApi().all().then((r) => {
+        console.log(r)
         if (r.status === 200) {
-            if (r.data['direct_url'] !== undefined) {
-                console.log(r)
-            }
+            console.log(r)
+            msg()
             let todos = r.data.map((t) => {
                 return clean(t)
             })
@@ -359,21 +369,7 @@ const getAuth = () => {
 
 export {
     log,
-    getTodos,
-    addTodos,
-    saveTodos,
-    toggleTodo,
-    updateTodo,
-    deleteTodo,
-    addComment,
-    getAwbs,
-    addAwbs,
-    toggleAwb,
-    updateAwb,
-    deleteAwb,
-    register,
-    login,
     saveToken,
-    getAuth,
     now,
+    clean,
 }

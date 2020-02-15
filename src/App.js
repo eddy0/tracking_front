@@ -12,6 +12,7 @@ import Login from './components/Login'
 import Register from './components/Register'
 import {handleAuth} from './actions/userAction'
 import {log} from './utils'
+import {Spin} from 'antd'
 
 
 const {Footer} = Layout
@@ -42,6 +43,20 @@ const PrivateRoute = ({component: Component, ...rest}) => {
 }
 
 function App() {
+    const loading = useSelector(state => state.loading)
+    const user = useSelector(state => state.user)
+    const dispatch = useDispatch()
+
+    React.useEffect(() => {
+        if (user === null) {
+            dispatch(handleAuth())
+        }
+    }, [])
+
+    if (loading === true) {
+        return <Spin />
+    }
+
     return (
         <BrowserRouter>
             <React.Fragment>

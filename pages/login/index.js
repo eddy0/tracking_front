@@ -3,12 +3,14 @@ import React from 'react'
 import {connect, useDispatch, useSelector} from 'react-redux'
 import {handleLogin} from '../../src/actions/userAction'
 import Link from 'next/link'
+import {useRouter} from 'next/router'
 
 
 const NormalLoginForm = (props) => {
 
     const user = useSelector((state) => state.user)
     const dispatch = useDispatch()
+    const router = useRouter()
 
     const handleSubmit = e => {
         e.preventDefault()
@@ -17,7 +19,7 @@ const NormalLoginForm = (props) => {
                 console.log('Received values of form: ', values)
                 dispatch(handleLogin(values, () => {
                     console.log(props)
-                    props.history.push('/todo')
+                    router.push('/todo')
                 }))
             }
         })

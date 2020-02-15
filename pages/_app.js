@@ -41,6 +41,7 @@ const Nav = (props) => {
 function MyApp({Component, props}) {
 
 
+
     return (
         <Provider store={store}>
             <Nav/>

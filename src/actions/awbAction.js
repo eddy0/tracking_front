@@ -4,7 +4,8 @@ import {
     getAwbs,
     toggleAwb,
     updateAwb,
-} from '../utils'
+} from '../api/awb'
+import {actionLoadingEnd, actionLoadingStart} from './loadingAction'
 
 
 const FETCH_AWB = 'FETCH_AWB'
@@ -21,12 +22,12 @@ const actionFetchAWB = (awb) => {
     }
 }
 
-const handleFetchAWB = () => {
-    return (dispatch) => {
-        getAwbs().then((awb) => {
-            dispatch(actionFetchAWB(awb))
-        })
-    }
+const handleFetchAWB = () => (dispatch) => {
+    dispatch(actionLoadingStart())
+    getAwbs().then((awb) => {
+        dispatch(actionFetchAWB(awb))
+        dispatch(actionLoadingEnd())
+    })
 }
 
 const actionAddAWB = (awb) => {
