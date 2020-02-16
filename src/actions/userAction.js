@@ -23,10 +23,10 @@ const handleAuth = () => dispatch => {
             dispatch(actionLoadingEnd())
         }).catch((err) => {
             console.log('err', err)
-            window.location.href = '/login'
+            // window.location.href = '/login'
         })
     } else {
-        window.location.href = '/login'
+        // window.location.href = '/login'
     }
 }
 

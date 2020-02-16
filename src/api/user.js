@@ -5,8 +5,9 @@ import {Api} from './index'
 
 class UserApi extends Api {
     auth() {
-        const url = this.baseUrl + '/auth'
-        return axios({
+        // const url = this.baseUrl + '/auth'
+        const url = '/auth'
+        return this.axios({
             url: url,
             method: 'get',
             headers: {'z-token': this.token}
@@ -15,7 +16,7 @@ class UserApi extends Api {
 
     register(data) {
         const url = this.baseUrl + '/register'
-        return axios({
+        return this.axios({
             url: url,
             method: 'post',
             data: data,
@@ -24,7 +25,7 @@ class UserApi extends Api {
 
     login(data) {
         const url = this.baseUrl + '/login'
-        return axios({
+        return this.axios({
             url: url,
             method: 'post',
             data: data,

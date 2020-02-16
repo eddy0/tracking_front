@@ -6,11 +6,12 @@ import {Api, msg} from './index'
 class TodoApi extends Api {
 
     all() {
-        const url = this.baseUrl + '/todo/'
-        return axios({
+        // const url = this.baseUrl + '/todo/'
+        const url = '/todo/'
+        return this.axios({
             url: url,
             method: 'get',
-            headers: {'z-token': this.getToken()},
+            // headers: {'z-token': this.getToken()},
         })
 
     }
