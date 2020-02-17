@@ -18,15 +18,19 @@ import {Spin} from 'antd'
 const {Footer} = Layout
 
 const PrivateRoute = ({component: Component, ...rest}) => {
-    // const user = useSelector(state => state.user, shallowEqual)
-    // const dispach = useDispatch()
-    //
-    // React.useEffect(() => {
-    //     console.log('useeffect')
-    //     dispach(handleAuth())
-    // }, [user])
-    //
-    // console.log('dispatch user', user)
+    const loading = useSelector(state => state.loading)
+    const user = useSelector(state => state.user)
+    const dispatch = useDispatch()
+
+    React.useEffect(() => {
+        if (user === null) {
+            dispatch(handleAuth())
+        }
+    }, [user])
+
+    if (loading === true) {
+        return <Spin />
+    }
 
     return (<Route {...rest} render={(props) => {
             const user = window.localStorage.token
@@ -43,19 +47,6 @@ const PrivateRoute = ({component: Component, ...rest}) => {
 }
 
 function App() {
-    const loading = useSelector(state => state.loading)
-    const user = useSelector(state => state.user)
-    const dispatch = useDispatch()
-
-    React.useEffect(() => {
-        if (user === null) {
-            dispatch(handleAuth())
-        }
-    }, [])
-
-    if (loading === true) {
-        return <Spin />
-    }
 
     return (
         <BrowserRouter>

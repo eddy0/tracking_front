@@ -41,10 +41,11 @@ const register = (form) => {
 
 const login = (form) => {
     return new UserApi().login(form).then(r => {
-        if (r.status === 200 && r.data.user !== null) {
-            const token = r.data.token
+        const {errcode, user} = r
+        if (errcode === 0 && user !== null) {
+            const token = r.token
             saveToken(token)
-            return r.data.user
+            return user
         } else {
             return null
         }

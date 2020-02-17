@@ -54,15 +54,10 @@ class AirwayApi extends Api {
 
 const getAwbs = () => {
     return new AirwayApi().all().then((r) => {
-        log(r)
-        if (r.status === 200) {
-            let todos = r.data.map((t) => {
-                return clean(t)
-            })
-            return todos
-        } else {
-            return []
-        }
+        let todos = r.data.map((t) => {
+            return clean(t)
+        })
+        return todos
     }).catch((err) => {
         log('err', err)
         return []
@@ -72,10 +67,8 @@ const getAwbs = () => {
 
 const addAwbs = (awb) => {
     return new AirwayApi().add(awb).then((r) => {
-        if (r.status === 200) {
             let d = clean(r.data)
             return d
-        }
     })
 }
 
@@ -90,11 +83,9 @@ const toggleAwb = (id) => {
 
 const updateAwb = (id, data) => {
     return new AirwayApi().update(id, data).then((r) => {
-        if (r.status === 200) {
             console.log(r)
             let d = clean(r.data)
             return d
-        }
     })
 
 }
@@ -104,7 +95,7 @@ const deleteAwb = (id) => {
     return new AirwayApi().delete(id)
 }
 
-export  {
+export {
     getAwbs,
     addAwbs,
     toggleAwb,

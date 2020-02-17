@@ -19,7 +19,6 @@ class Api {
             baseURL: this.baseUrl,
             headers: {
                 'Content-Type': 'application/json',
-                'z-token': this.getToken(),
             }
         })
 
@@ -27,15 +26,21 @@ class Api {
     }
 
     init() {
+        this.axios.interceptors.request.use((config) => {
+            config.headers['z-token'] = this.getToken()
+            return config
+        })
+
         this.axios.interceptors.response.use((res) => {
-            console.log('interceptors', res)
+            console.log('interceptors', res.data)
             if (res.status === 200) {
                 const {errcode} = res.data
                 if (errcode === 0) {
                     return Promise.resolve(res.data)
                 } else {
                     let check = new CheckErrorCode()
-                    // return check.checkcode(res.data)
+                    check.checkcode(res.data)
+                    return
                 }
                 return res.data
             } else {
@@ -75,15 +80,18 @@ class CheckErrorCode {
     }
 
     checkcode(r) {
+        console.log('r', r)
         const {errcode, redirect_url } = r
-        const message = this.messages[errcode]
+        const msg = this.messages[errcode]
         if (redirect_url !== undefined) {
-            window.location.href = redirect_url
+            console.log('redirect url ', redirect_url)
+            // window.location.href = redirect_url
         } else {
-            this.jump[errcode]()
+            console.log('redirect url', r)
+            // this.jump[errcode]()
         }
         // msg(message)
-        message.success(`This is a success message, ${message}`)
+        message.success(`This is a success message, ${msg}`)
     }
 
     redirectLogin() {

@@ -3,7 +3,7 @@ import { applyMiddleware, compose } from 'redux'
 
 
 // const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-const composeEnhancers =  compose
+const composeEnhancers = (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose
 
 const middlewareEnhancer = composeEnhancers(
     applyMiddleware(

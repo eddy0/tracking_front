@@ -58,19 +58,16 @@ class TodoApi extends Api {
 
 const getTodos = () => {
     return new TodoApi().all().then((r) => {
-        console.log(r)
-        if (r.status === 200) {
-            console.log(r)
-            msg()
-            let todos = r.data.map((t) => {
-                return clean(t)
-            })
-            return todos
-        } else {
-            return []
-        }
+        const {data} = r
+        console.log(data)
+        let todos = data.map((t) => {
+            return clean(t)
+        })
+        return todos
     })
 }
+
+
 const saveTodos = (todos) => {
     window.localStorage.clear()
     window.localStorage.todos = JSON.stringify(todos)
@@ -79,38 +76,32 @@ const saveTodos = (todos) => {
 
 const addTodos = (todo) => {
     return new TodoApi().add(todo).then((r) => {
-        if (r.status === 200) {
-            let d = clean(r.data)
-            return d
-        }
+        const {data} = r
+        let d = clean(data)
+        return d
     })
 }
 
 const toggleTodo = (id) => {
     return new TodoApi().toggle(id).then((r) => {
-        console.log('r', r)
-        return r
+        return r.data
     })
 }
 
 const updateTodo = (id, data) => {
     return new TodoApi().update(id, data).then((r) => {
-        if (r.status === 200) {
             console.log(r)
             let d = clean(r.data)
             return d
-        }
     })
 
 }
 
 const addComment = (id, data) => {
     return new TodoApi().comment(id, data).then((r) => {
-        if (r.status === 200) {
             console.log(r)
             let d = clean(r.data)
             return d
-        }
     })
 }
 
