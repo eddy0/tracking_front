@@ -28,7 +28,10 @@ class RegistrationForm extends React.Component {
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values, this.props)
-                this.props.handleRegister(values)
+                this.props.handleRegister(values, () => {
+                    console.log(this.props)
+                    this.props.history.push('/todo')
+                })
 
             }
         })

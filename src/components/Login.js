@@ -7,7 +7,6 @@ import {connect} from 'react-redux'
 
 class NormalLoginForm extends React.Component {
 
-
     handleSubmit = e => {
         e.preventDefault()
         this.props.form.validateFields((err, values) => {

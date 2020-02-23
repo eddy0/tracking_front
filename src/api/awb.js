@@ -54,10 +54,11 @@ class AirwayApi extends Api {
 
 const getAwbs = () => {
     return new AirwayApi().all().then((r) => {
-        let todos = r.data.map((t) => {
+        const {data} = r.data
+        let awbs = data.map((t) => {
             return clean(t)
         })
-        return todos
+        return awbs
     }).catch((err) => {
         log('err', err)
         return []

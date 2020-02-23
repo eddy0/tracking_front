@@ -39,13 +39,14 @@ const handleLogin = (form, cb) => dispatch => {
 }
 
 
-const handleRegister = (form) => dispatch => {
+const handleRegister = (form, callback) => dispatch => {
     dispatch(actionLoadingStart())
     return register(form).then(r => {
         console.log(r)
         if (r.status === 200 && r.data.user !== null) {
             dispatch(actionUser(r.data.user))
             dispatch(actionLoadingEnd())
+            callback()
         } else {
             message.error('register error')
             dispatch(actionLoadingEnd())
