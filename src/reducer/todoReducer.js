@@ -16,7 +16,7 @@ const fetchTodoReducer = (state, action) => {
 
 
 const createTodoReducer = (state, action) => {
-    return [...state, action.todo]
+    return [action.todo, ...state]
 }
 
 

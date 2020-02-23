@@ -5,7 +5,6 @@ import {useRouter} from 'next/router'
 
 
 const LoginMenu = (props) => {
-    console.log(props)
     const router = useRouter()
 
     const logout = () => {
@@ -29,7 +28,8 @@ const UserLogin = ({user}) => {
     return (
         <Dropdown overlay={() => <LoginMenu dispatch={dispatch}/>}>
             <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-                <Avatar icon="user"/>
+                {/*<Avatar icon="user"/>*/}
+                <Avatar>{user.username.split(' ')[0]}</Avatar>
             </a>
         </Dropdown>
     )
