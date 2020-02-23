@@ -1,4 +1,3 @@
-import axios from 'axios'
 import {clean} from '../utils'
 import {Api, msg} from './index'
 
@@ -8,57 +7,47 @@ class TodoApi extends Api {
     all() {
         // const url = this.baseUrl + '/todo/'
         const url = '/todo/'
-        return this.axios({
-            url: url,
-            method: 'get',
-            // headers: {'z-token': this.getToken()},
-        })
-
+        return this.axios.get(url)
     }
 
     add(data) {
-        const url = this.baseUrl + '/todo/add'
-        return axios({
+        // const url = this.baseUrl + '/todo/add'
+        const url =  '/todo/add'
+        return this.axios({
             url: url,
             method: 'post',
             data: data,
-            headers: {'z-token': this.getToken()}
         })
     }
 
     update(id, data) {
-        const url = this.baseUrl + `/todo/${id}`
-        return axios.patch(url, data, {
-            headers: {'z-token': this.getToken()}
-        })
+        // const url = this.baseUrl + `/todo/${id}`
+        const url = `/todo/${id}`
+        return this.axios.patch(url, data)
     }
 
     toggle(id) {
-        const url = this.baseUrl + `/todo/${id}`
-        return axios.put(url, '', {
-            headers: {'z-token': this.getToken()}
-        })
+        // const url = this.baseUrl + `/todo/${id}`
+        const url =  `/todo/${id}`
+        return this.axios.put(url, '')
     }
 
     delete(id) {
-        const url = this.baseUrl + `/todo/${id}`
-        return axios.delete(url, {
-            headers: {'z-token': this.getToken()}
-        })
+        // const url = this.baseUrl + `/todo/${id}`
+        const url = `/todo/${id}`
+        return this.axios.delete(url)
     }
 
     comment(id, comment) {
-        const url = this.baseUrl + '/comment/add'
-        return axios.post(url, {id, content: comment.content}, {
-            headers: {'z-token': this.getToken()}
-        })
+        // const url = this.baseUrl + '/comment/add'
+        const url =  '/comment/add'
+        return this.axios.post(url, {id, content: comment.content})
     }
 
 }
 
 const getTodos = () => {
-    return new TodoApi().all().then((r) => {
-        const {data} = r
+    return new TodoApi().all().then(({data}) => {
         console.log(data)
         let todos = data.map((t) => {
             return clean(t)
@@ -68,15 +57,9 @@ const getTodos = () => {
 }
 
 
-const saveTodos = (todos) => {
-    window.localStorage.clear()
-    window.localStorage.todos = JSON.stringify(todos)
-}
-
 
 const addTodos = (todo) => {
-    return new TodoApi().add(todo).then((r) => {
-        const {data} = r
+    return new TodoApi().add(todo).then(({data}) => {
         let d = clean(data)
         return d
     })
@@ -89,9 +72,8 @@ const toggleTodo = (id) => {
 }
 
 const updateTodo = (id, data) => {
-    return new TodoApi().update(id, data).then((r) => {
-            console.log(r)
-            let d = clean(r.data)
+    return new TodoApi().update(id, data).then(({data}) => {
+            let d = clean(data)
             return d
     })
 
@@ -111,7 +93,6 @@ const deleteTodo = (id) => {
 
 export {
     getTodos,
-    saveTodos,
     addTodos,
     toggleTodo,
     updateTodo,

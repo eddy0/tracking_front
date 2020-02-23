@@ -1,9 +1,11 @@
 import {actionLoadingEnd, actionLoadingStart} from './loadingAction'
 import {message} from 'antd'
 import {getAuth, login, register} from '../api/user'
+import {clearToken} from '../api'
 
 
 const LOGIN_USER = 'LOGIN_USER'
+const LOGOUT_USER = 'LOGOUT_USER'
 const REGISTER_USER = 'REGISTER_USER'
 
 const actionUser = (user) => {
@@ -18,7 +20,6 @@ const handleAuth = () => dispatch => {
     if (token !== undefined) {
         dispatch(actionLoadingStart())
         getAuth().then(user => {
-            console.log(user)
             dispatch(actionUser(user))
             dispatch(actionLoadingEnd())
         }).catch((err) => {
@@ -36,6 +37,12 @@ const handleLogin = (form, cb) => dispatch => {
         dispatch(actionUser(user))
         cb()
     })
+}
+
+const handleLogout = (callback) => dispatch => {
+    dispatch(actionUser(null))
+    clearToken()
+    callback()
 }
 
 
@@ -57,7 +64,9 @@ const handleRegister = (form, callback) => dispatch => {
 export {
     LOGIN_USER,
     REGISTER_USER,
+    LOGOUT_USER,
     handleRegister,
     handleLogin,
+    handleLogout,
     handleAuth,
 }

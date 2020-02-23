@@ -6,9 +6,9 @@ const saveToken = (token) => {
     window.localStorage.token = token
 }
 
-
-axios.defaults.headers['Content-Type'] = 'application/json'
-
+const clearToken = () => {
+    window.localStorage.removeItem('token')
+}
 
 class Api {
     constructor() {
@@ -42,7 +42,6 @@ class Api {
                     check.checkcode(res.data)
                     return
                 }
-                return res.data
             } else {
                 const err = {
                     'title': 'oops, something wrong',
@@ -51,7 +50,7 @@ class Api {
                 throw err
             }
         }, error => {
-            console.log('error', error)
+            console.log('interceptors error', error)
             // return Promise.reject(error)
         })
     }
@@ -64,6 +63,8 @@ class Api {
         return token
     }
 
+
+
 }
 
 
@@ -71,6 +72,7 @@ class CheckErrorCode {
     constructor() {
         this.messages = {
             2000: 'auth not valid',
+            4001: 'user already exist'
         }
         this.jump = {
             2000: () => {
@@ -91,7 +93,7 @@ class CheckErrorCode {
             // this.jump[errcode]()
         }
         // msg(message)
-        message.success(`This is a success message, ${msg}`)
+        message.error(`${msg}`)
     }
 
     redirectLogin() {
@@ -108,5 +110,6 @@ const msg = (message='') => {
 export {
     Api,
     saveToken,
+    clearToken,
     msg,
 }

@@ -5,56 +5,42 @@ import {clean, log} from '../utils'
 
 class AirwayApi extends Api {
     all() {
-        const url = this.baseUrl + '/awb/'
-        return axios({
+        const url = '/awb/'
+        return this.axios({
             url: url,
             method: 'get',
-            headers: {'z-token': this.getToken()}
         })
     }
 
     add(data) {
-        const url = this.baseUrl + '/awb/add'
-        return axios({
+        const url = '/awb/add'
+        return this.axios({
             url: url,
             method: 'post',
             data: data,
-            headers: {'z-token': this.getToken()}
         })
     }
 
     update(id, data) {
-        const url = this.baseUrl + `/awb/${id}`
-        return axios({
-            method: 'patch',
-            url,
-            data,
-            headers: {'z-token': this.token}
-        })
+        const url = `/awb/${id}`
+        return this.axios.patch(url, data)
     }
 
     toggle(id) {
-        const url = this.baseUrl + `/awb/${id}`
-        return axios({
-            method: 'put',
-            url,
-            headers: {'z-token': this.getToken()}
-        })
+        const url = `/awb/${id}`
+        return this.axios.put(url, '')
     }
 
     delete(id) {
-        const url = this.baseUrl + `/awb/${id}`
-        return axios.delete(url,
-            {
-                headers: {'z-token': this.getToken()}
-            })
+        const url = `/awb/${id}`
+        return this.axios.delete(url)
     }
 }
 
 
 const getAwbs = () => {
     return new AirwayApi().all().then((r) => {
-        const {data} = r.data
+        const {data} = r
         let awbs = data.map((t) => {
             return clean(t)
         })
@@ -67,9 +53,9 @@ const getAwbs = () => {
 
 
 const addAwbs = (awb) => {
-    return new AirwayApi().add(awb).then((r) => {
-            let d = clean(r.data)
-            return d
+    return new AirwayApi().add(awb).then(({data}) => {
+        let d = clean(data)
+        return d
     })
 }
 
@@ -84,9 +70,9 @@ const toggleAwb = (id) => {
 
 const updateAwb = (id, data) => {
     return new AirwayApi().update(id, data).then((r) => {
-            console.log(r)
-            let d = clean(r.data)
-            return d
+        console.log(r)
+        let d = clean(r.data)
+        return d
     })
 
 }

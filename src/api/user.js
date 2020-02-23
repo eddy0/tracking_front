@@ -7,30 +7,17 @@ class UserApi extends Api {
     auth() {
         // const url = this.baseUrl + '/auth'
         const url = '/auth'
-        return this.axios({
-            url: url,
-            method: 'get',
-            headers: {'z-token': this.token}
-        })
+        return this.axios.get(url)
     }
 
     register(data) {
-        const url = this.baseUrl + '/register'
-        return this.axios({
-            url: url,
-            method: 'post',
-            data: data,
-        })
+        const url = '/register'
+        return this.axios.post(url, data)
     }
 
     login(data) {
-        const url = this.baseUrl + '/login'
-        return this.axios({
-            url: url,
-            method: 'post',
-            data: data,
-        })
-
+        const url = '/login'
+        return this.axios.post(url, data)
     }
 }
 
@@ -54,11 +41,10 @@ const login = (form) => {
 
 const getAuth = () => {
     return new UserApi().auth().then((r) => {
-        log('r', r)
-        if (r.status === 200 && r.data.user !== null) {
-            const token = r.data.token
+        const {errcode, user, token} = r
+        if (errcode === 0 && user !== null) {
             saveToken(token)
-            return r.data.user
+            return user
         } else {
             return null
         }

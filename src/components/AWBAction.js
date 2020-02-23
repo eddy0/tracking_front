@@ -10,9 +10,11 @@ const AWBAction = (props) => {
     const dispatch = useDispatch()
     const {record} = props
     const todo = record
+    const {awb} = record
 
-    const prefix = todo.awb.slice(0, 3)
-    const body = todo.awb.slice(-8)
+
+    const prefix = awb.slice(0, 3)
+    const body = awb.slice(-8)
     let component = parse_awb(prefix, body)
 
     return (

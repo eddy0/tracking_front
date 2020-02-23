@@ -39,6 +39,7 @@ const actionAddAWB = (awb) => {
 
 const handleAddAWB = (form) => (dispatch) => {
     addAwbs(form).then((t) => {
+        console.log('aaaa', t)
         dispatch(actionAddAWB(t))
     })
 }

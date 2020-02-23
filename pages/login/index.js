@@ -69,11 +69,3 @@ const NormalLoginForm = (props) => {
 const Login = Form.create({name: 'normal_login'})(NormalLoginForm)
 
 export default Login
-
-// const mapStateToProps = (state) => {
-//     return {
-//         user: state.user
-//     }
-// }
-//
-// export default connect(mapStateToProps, {handleLogin})(Login)

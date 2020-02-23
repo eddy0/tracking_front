@@ -31,7 +31,7 @@ const AWB = (props) =>  {
             dataIndex: 'updatedTime',
             key: 'updatedTime',
             width: '140px',
-            render: (text, record) => <span>{now(record.updatedTime * 1000)}</span>
+            render: (text, record) => <span>{now(record.updatedTime)}</span>
         },
         {
             title: 'Action',

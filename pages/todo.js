@@ -1,12 +1,13 @@
 import {Button, Table} from 'antd'
 import React from 'react'
-import {now} from '../../src/utils'
-import TableCta from '../../src/components/TableCTA'
-import {EditableCell, EditableFormRow} from '../../src/components/TableCompoenent'
-import {handleFetchTodos, handleUpdateTodo} from '../../src/actions/todoAction'
-import {connect, useDispatch, useSelector} from 'react-redux'
+import {now} from '../src/utils'
+import TableCta from '../src/components/TableCTA'
+import {EditableCell, EditableFormRow} from '../src/components/TableCompoenent'
+import {handleFetchTodos, handleUpdateTodo} from '../src/actions/todoAction'
+import {useDispatch, useSelector} from 'react-redux'
 import {useRouter} from 'next/router'
 import Link from 'next/link'
+
 
 
 const Todo = function (props) {
@@ -15,8 +16,6 @@ const Todo = function (props) {
     const count = dataSource.length
     const dispatch = useDispatch()
     const router = useRouter()
-
-
     let columns = [
         {
             title: 'Todo',
@@ -35,7 +34,7 @@ const Todo = function (props) {
             dataIndex: 'updatedTime',
             key: 'updatedTime',
             width: '140px',
-            render: (text, record) => <span>{now(record.updatedTime * 1000)}</span>
+            render: (text, record) => <span>{now(record.updatedTime)}</span>
         },
         {
             title: 'Action',
@@ -122,19 +121,3 @@ const Todo = function (props) {
 }
 
 export default Todo
-
-// const mapStateToProps = (state) => {
-//     const todos = state.todos
-//     return {
-//         dataSource: todos,
-//         count: todos.length
-//     }
-// }
-//
-// const mapDispatchToProps = ({
-//     handleFetchTodos,
-//     handleUpdateTodo,
-// })
-
-// export default connect(mapStateToProps, mapDispatchToProps)(Todo)
-
