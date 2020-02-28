@@ -50,7 +50,7 @@ const Todo = function (props) {
                 router.push('/login')
             }))
         }
-    })
+    },[])
 
 
     const update = ({target, ...todo}) => {
