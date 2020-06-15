@@ -1,0 +1,171 @@
+.align-center {
+  display: flex;
+  align-items: center;
+}
+
+.register-wrapper {
+  width: 100vw;
+  height: 100vh;
+  font-size: 1.8rem;
+  background-color: #D7EFEE;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.register-box {
+  background-color: #D7EFEE;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+  padding: 3rem;
+}
+
+.register-title {
+  color: #575757;
+  font-size: 3rem;
+  font-weight: 600;
+  text-align: center;
+  text-transform: capitalize;
+  padding-bottom: 3rem;
+}
+
+.register-box .register-input {
+  height: 4rem;
+  font-size: 1.8rem;
+  box-sizing: border-box;
+  border-radius: 3px;
+  border: 1px solid #d7d7d7;
+  margin: 10px auto;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.3);
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  padding: 0 1rem;
+}
+
+.register-box .register-btns {
+  margin: 3rem auto 0;
+}
+
+.register-box .register-btn {
+  color: #fff;
+  border: 0;
+  box-shadow: none;
+  font-weight: 500;
+  border-radius: 5px;
+  cursor: pointer;
+  box-sizing: border-box;
+  background-color: #999;
+}
+
+.register-btn:hover {
+  background-color: #00a699;
+}
+
+.register-box {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+.register-box {
+  background-color: #D7EFEE;
+}
+
+.prevent {
+  background: #ccc !important;
+  cursor: not-allowed !important;
+}
+
+button.prevent:focus {
+  background: #ccc;
+}
+
+button.prevent:hover {
+  background: #ccc;
+}
+
+.password-valid.active, .username-valid.active {
+  display: block !important;
+}
+
+.popover-list {
+  border-radius: 3px;
+  position: relative;
+  z-index: 500;
+  background-color: #fff;
+}
+
+.popover-list:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -14px;
+  transform: translateY(-50%) rotate(45deg);
+  width: 10px;
+  height: 10px;
+  background-color: #fff;
+  z-index: 499;
+  box-sizing: border-box;
+  border: 0;
+}
+
+.password-valid {
+  display: none !important;
+  position: absolute;
+  right: -151px;
+  top: 62px;
+  color: #999;
+  font-size: 13px;
+  background-color: #fff;
+  padding: 10px;
+  box-shadow: 0px 3px 9px -3px rgba(0, 0, 0, 0.4);
+}
+
+.username-valid {
+  display: none !important;
+  position: absolute;
+  right: -151px;
+  top: -25px;
+  color: #999;
+  font-size: 13px;
+  background-color: #fff;
+  padding: 10px;
+  box-shadow: 0px 3px 9px -3px rgba(0, 0, 0, 0.4);
+}
+
+.username-valid > ul, .password-valid > ul {
+  text-align: left;
+}
+
+.username-valid ul > li, .password-valid li {
+  display: flex;
+}
+
+.username-valid svg, .password-valid svg {
+  margin-right: 3px;
+}
+
+.popover-list .item.valid svg {
+  color: #00a699;
+  fill: #00a699;
+}
+
+.register-signup, .register-signup {
+  margin-top: 30px;
+}
+.register-signup a, .register-signup a {
+  color: #00a699;
+  text-decoration: underline;
+}
+.register-signup a:hover, .register-signup a:hover {
+  color: #2b78c1;
+}
+
+.ant-form-item-label {
+  text-align: center;
+  margin: 10px 0;
+}
+
+/*# sourceMappingURL=Register.css.map */

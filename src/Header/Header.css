@@ -1,0 +1,155 @@
+@media (min-width: 1012px) {
+    .header > .header-container {
+        max-width: 984px;
+    }
+
+    .header .header-logo {
+        margin-right: 30px;
+    }
+
+    .input-wrapper input {
+        width: 300px;
+    }
+}
+
+@media (min-width: 760px) and (max-width: 1011px) {
+    .header > .header-container {
+        width: 700px;
+    }
+
+    .header .header-search {
+        flex: 1;
+    }
+
+    .input-wrapper input {
+        width: 200px;
+    }
+
+    .header-container > .header-info {
+        width: 151px;
+    }
+}
+
+@media (max-width: 650px) {
+    .header .header-login .signIn {
+        display: none;
+    }
+}
+
+@media (max-width: 576px) {
+    .header .header-nav {
+        display: none;
+    }
+}
+
+@media (max-width: 376px) {
+    .header .header-search {
+        display: none !important;
+    }
+}
+
+
+header {
+    font-size: 1.4rem;
+    width: 100%;
+    height: 6rem;
+    position: fixed;
+    z-index: 100;
+    margin-bottom: 10rem;
+
+}
+
+.header {
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.3);
+    background-color: #fff;
+}
+
+header .header-container {
+    margin: 0 auto;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+
+.header .header-logo {
+    display: flex;
+    align-items: center;
+    height: inherit;
+}
+
+.header .header-logo a {
+    display: flex;
+    align-items: center;
+    fill: #00a699;
+}
+
+header nav {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    justify-content: space-evenly;
+}
+
+nav .header-nav__item {
+    height: 100%;
+}
+
+.header-nav__item a {
+    color: #1e1e1e;
+    height: inherit;
+    display: flex;
+    align-items: center;
+    align-self: stretch;
+    padding: 0 1rem;
+    transition: all 0.3s ease;
+}
+
+.header-nav__item a:hover {
+    color: #FF7851;
+    background-color: rgba(0, 115, 106, 0.3);
+}
+
+.header-nav__item a.active {
+    color: #00736a;
+}
+
+
+header .header-login {
+    height: inherit;
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
+header .header-login .login {
+    color: #00a699;
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    margin-right: 1rem;
+
+}
+
+header .header-login .login:hover {
+    color: #e83e8c;
+
+}
+
+header .header-login .register {
+    color: #00a699;
+    border: 1px solid rgba(0,166,153, 0.3);
+    padding: 6px;
+    border-radius: 3px;
+    box-sizing: border-box;
+    line-height: 1.6rem;
+}
+header .header-login .register:hover {
+    color: #fff;
+    background-color: #00a699;
+    border-color: #00a699;
+}
+
+
+
