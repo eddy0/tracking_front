@@ -62,16 +62,7 @@ const LoginForm = () => {
 
     return (
         <Form form={form} name="login_form" onFinish={onFinish}>
-            <Form.Item
-                name="username"
-                label="username"
-                rules={[
-                    {
-                        required: true,
-                        message: 'Input username',
-                    },
-                ]}
-            >
+            <Form.Item  name="username"  label="username"   rules={[{required: true, message: 'Input username',}]} >
                 <Input className="register-input register-username" placeholder="Please input your name"/>
             </Form.Item>
             <Form.Item
