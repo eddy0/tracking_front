@@ -5,6 +5,8 @@ const axios = Axios.create({
     baseURL: 'http://localhost:3000',
     headers: {
         'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': window.cookie
+        // 'csrf_token'
     }
 })
 

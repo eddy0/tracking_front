@@ -17,7 +17,7 @@ function LoginPage(props) {
             password: password.current.value
         }
 
-        UserApi.login(data).then(e => console.log(e.data))
+        UserApi.login(data).then(e => console.log(e))
 
     }
 
