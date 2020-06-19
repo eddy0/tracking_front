@@ -1,22 +1,46 @@
-import React from 'react';
-import './App.css';
+import React, {useReducer} from 'react'
+import './App.css'
 import Header from './Header/Header'
-import {Route, Switch} from "react-router";
+import {Route, Switch} from 'react-router'
 import Card from './Card/Card'
-import LoginPage from "./Auth/LoginPage";
-import RegisterPage from "./Auth/RegisterPage";
-import TopicNew from "./Topic/TopicNew";
-import TopicDetail from "./Topic/TopicDetail";
-import {Spin} from "antd";
+import LoginPage from './Auth/LoginPage'
+import RegisterPage from './Auth/RegisterPage'
+import TopicNew from './Topic/TopicNew'
+import TopicDetail from './Topic/TopicDetail'
+import {Spin} from 'antd'
+import reducer from './reducers'
 
-const initialState = {}
 
-const root = React.createContext(initialState);
+const initialState = {
+    isAuth: false,
+    user: null,
+    token: null,
+}
+
+
+export const RootContext = React.createContext(initialState)
 
 
 function App() {
+    const [state, dispatch] = useReducer(reducer, initialState)
+
+    React.useEffect(() => {
+        const user = JSON.parse(localStorage.getItem('user') || null)
+        const token = JSON.parse(localStorage.getItem('token') || null)
+        if (user !== null && token !== null) {
+            dispatch({
+                type: 'LOGIN',
+                payload: {
+                    user,
+                    token,
+                }
+            })
+        }
+    }, [])
+
+
     return (
-        <root.Provider value={initialState}>
+        <RootContext.Provider value={{state, dispatch}}>
             <div className="App">
                 <Spin spinning={false}/>
                 <Switch>
@@ -30,8 +54,8 @@ function App() {
                     </Route>
                 </Switch>
             </div>
-        </root.Provider>
-    );
+        </RootContext.Provider>
+    )
 }
 
-export default App;
+export default App
