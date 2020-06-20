@@ -1,5 +1,8 @@
-import React, {useState, useEffect} from 'react';
-import {Form, Input, Button, Checkbox} from 'antd';
+import React, {useState, useEffect} from 'react'
+import {Form, Input, Button, Checkbox} from 'antd'
+import {Link} from 'react-router-dom'
+import {useFormik} from 'formik'
+
 
 const log = console.log.bind(console)
 
@@ -50,44 +53,75 @@ const validUsername = (s) => {
     }
 }
 
+const validate = values => {
+    const errors = {}
+    if (!values.username) {
+        errors.username = 'Required'
+    } else if (values.username.length < 2) {
+        errors.username = 'Must be more'
+    }
+
+    if (!values.password) {
+        errors.password = 'Required'
+    } else if (values.password.length > 2) {
+        errors.password = 'Must be 15 characters or less'
+    }
+
+    // if (!values.email) {
+    //     errors.email = 'Required';
+    // } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    //     errors.email = 'Invalid email address';
+    // }
+
+    return errors
+}
+
 const LoginForm = () => {
-    const [form] = Form.useForm();
+    const [form] = Form.useForm()
+    const formik = useFormik({
+        initialValues: {
+            username: '',
+            password: '',
+        },
+        validate,
+        onSubmit: values => {
+            alert(JSON.stringify(values, null, 2))
+        }
+    })
 
 
     const onFinish = (values) => {
         log(values)
-        
+
     }
 
 
     return (
-        <Form form={form} name="login_form" onFinish={onFinish}>
-            <Form.Item  name="username"  label="username"   rules={[{required: true, message: 'Input username',}]} >
-                <Input className="register-input register-username" placeholder="Please input your name"/>
-            </Form.Item>
-            <Form.Item
-                name="password"
-                label="password"
-                rules={[
-                    {
-                        required: true,
-                        message: 'Input password',
-                    },
-                ]}
-            >
-                <Input type="password" className="register-input register-password"
+        <form name="login_form" onSubmit={formik.handleSubmit}>
+            <div className="register-inputWrapper" style={{position: 'relative'}}>
+                <input type={'text'} name={'username'} {...formik.getFieldProps('username')}
+                       className="register-input register-username" placeholder="Please input your name"/>
+                <div className={'hint'}>
+                {formik.touched.username && formik.errors.username ? (
+                    <span> {formik.errors.username}</span>
+                ) : null}
+                </div>
+                <input {...formik.getFieldProps('password')} type={'password'} name={'password'} className="register-input register-password"
                        placeholder="Please input your password"/>
-            </Form.Item>
-            <Form.Item>
-                <Form.Item>
-                    <Button className={'register-btn'} type="primary" htmlType="submit">
+                <div className={'hint'}>
+                    {formik.touched.password && formik.errors.password ? (
+                        <span> {formik.errors.password}</span>
+                    ) : null}
+                </div>
+                <div className="register-btns">
+                    <button className={'register-btn'} type="submit">
                         Register
-                    </Button>
-                </Form.Item>
-            </Form.Item>
-        </Form>
-    );
-};
+                    </button>
+                </div>
+            </div>
+        </form>
+    )
+}
 
 
 function LoginPage(props) {
@@ -101,14 +135,14 @@ function LoginPage(props) {
                     <LoginForm/>
                     <div className="register-signup">
                         <span>Already has account? </span>
-                        <a href="/login">Sign in.</a>
+                        <Link to="/login">Sign in.</Link>
                     </div>
                 </div>
 
             </div>
         </div>
 
-    );
+    )
 }
 
-export default LoginPage;
+export default LoginPage

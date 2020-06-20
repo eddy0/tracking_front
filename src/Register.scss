@@ -35,7 +35,7 @@
 }
 
 .register-box .register-input {
-  //width: 60%;
+  width: 80%;
   height: 4rem;
   font-size: 1.8rem;
   box-sizing: border-box;
@@ -46,6 +46,13 @@
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
   padding: 0 1rem;
+}
+
+.register-box .hint {
+  height: 2rem;
+  padding: 0 1rem;
+  font-size: 1.4rem;
+  color: red;
 }
 
 .register-box .register-btns {
@@ -61,6 +68,7 @@
   cursor: pointer;
   box-sizing: border-box;
   background-color: #999;
+  padding: 0.5rem 1rem;
 }
 
 .register-btn:hover {
