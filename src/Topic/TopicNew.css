@@ -26,7 +26,7 @@
 }
 .tag-content .tag-header {
   display: flex;
-  font-size: 18px;
+  font-size: 1.4rem;
   position: relative;
   color: #999;
 }
@@ -125,6 +125,20 @@
 
 .wd-topic-submit:hover, .wd-topic-btn.wd-topic-notice:hover {
   background-color: rgba(43, 120, 193, 0.9);
+}
+
+.wd-topic-btn.wd-topic-submit:disabled {
+  outline: 0;
+  border: 0;
+  background-color: #2e2e2e;
+  cursor: not-allowed;
+}
+
+.wd-topic-btn.wd-topic-submit:hover:disabled {
+  outline: 0;
+  border: 0;
+  background-color: #2e2e2e;
+  cursor: not-allowed;
 }
 
 /*# sourceMappingURL=TopicNew.css.map */

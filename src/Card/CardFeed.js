@@ -2,22 +2,22 @@ import React from 'react';
 import {Avatar, Divider, List} from "antd";
 
 function BlogAuthor(props) {
-    const {item} = props
+    const {user} = props
     return (
         <div>
-            <Avatar size={"small"} src={item.avatar} />
-            <a href={item.href}>{item.title}</a>
+            <Avatar size={"small"} > {user.username}</Avatar>
+            <a href={`user/${user.id}`}>{user.username}</a>
         </div>
         );
 }
 
 function CardFeed(props) {
-    const {item} = props
+    const {user, created_time} = props
     return (
         <div style={{display:"flex", alignItems:"center"}}>
-            <BlogAuthor item={item} />
+            <BlogAuthor user={user} />
             <Divider type={"vertical"} />
-            <span> just now</span>
+            <span> {created_time}</span>
         </div>
           );
 }

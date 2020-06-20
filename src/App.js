@@ -9,12 +9,12 @@ import TopicNew from './Topic/TopicNew'
 import TopicDetail from './Topic/TopicDetail'
 import {Spin} from 'antd'
 import reducer from './reducers'
-
+import {log} from './utils'
 
 const initialState = {
     isAuth: false,
     user: null,
-    token: null,
+    token: '',
 }
 
 
@@ -26,13 +26,13 @@ function App() {
 
     React.useEffect(() => {
         const user = localStorage.getItem('user') || null
-        const token = localStorage.getItem('token') || null
-        if (user !== null && token !== null) {
+        const token = localStorage.getItem('token') || ''
+        if (user !== null && token !== '') {
             dispatch({
                 type: 'LOGIN',
                 payload: {
-                    user,
-                    token,
+                    user: JSON.parse(user),
+                    token: token,
                 }
             })
         }
@@ -48,6 +48,7 @@ function App() {
                     <Route exact={true} path={'/register'} component={RegisterPage}/>
                     <Route>
                         <Header/>
+                        <Route exact={true} path={'/'} component={Card}/>
                         <Route path={'/blog'} component={Card}/>
                         <Route exact={true} path={'/topic/new'} component={TopicNew}/>
                         <Route exact={true} path={'/topic/detail'} component={TopicDetail}/>

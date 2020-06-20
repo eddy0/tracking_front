@@ -11,10 +11,11 @@ const listData = [];
 for (let i = 0; i < 23; i++) {
     listData.push({
         href: 'https://ant.design',
-        title: `ant design part ${i}`,
-        avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-        description:
-            'Ant Design, a design language for background applications, is refined by Ant UED Team.',
+        title: `ant design part ${i}We supply a series of design principles, practical patterns and high quality `,
+        user: {
+          username :' test',
+          id: 100,
+        },
         content:
             'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
     });
@@ -33,19 +34,19 @@ function CardList(props) {
                 },
                 pageSize: 10,
             }}
-            dataSource={listData}
+            dataSource={[...props.list, ...listData]}
 
-            renderItem={item => (
-                <List.Item
-                    key={item.title}
+            renderItem={item => {
+                return (<List.Item
+                    key={item.id}
                 >
                     <CardType/>
-                    <CardTitle title={item.content}/>
-                    <CardFeed item={item}/>
+                    <CardTitle id={item.id} title={item.title}/>
+                    <CardFeed time={item.created_time} user={item.user}/>
                     <CardTag />
                     <CardCTA/>
                 </List.Item>
-            )}
+            )}}
         />
     );
 }

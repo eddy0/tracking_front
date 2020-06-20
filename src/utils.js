@@ -1,9 +1,12 @@
 
 const save = (payload) => {
     localStorage.setItem('user', JSON.stringify(payload.user))
-    localStorage.setItem('token', JSON.stringify(payload.token))
+    localStorage.setItem('token', payload.token)
 }
 
+const log = console.log.bind(console)
+
 export {
-    save
+    log,
+    save,
 }

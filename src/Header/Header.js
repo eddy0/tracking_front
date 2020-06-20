@@ -10,8 +10,7 @@ import {RootContext} from '../App'
 
 function Header() {
     const {state} = useContext(RootContext)
-    const {isAuth} = state
-    console.log(state)
+    const {isAuth, user} = state
     return (
         <header>
             <Layout.Header className={'header'}>
@@ -20,7 +19,7 @@ function Header() {
                     <Nav/>
                     {
                         isAuth === true
-                            ? <UserLogin/>
+                            ? <UserLogin user={user}/>
                             : <UnLoginUser/>
                     }
 

@@ -1,7 +1,8 @@
-import React, {useState, useEffect} from 'react'
-import {Form, Input, Button, Checkbox} from 'antd'
-import {Link} from 'react-router-dom'
+import React, {useContext} from 'react'
+import {Link, useHistory} from 'react-router-dom'
 import {useFormik} from 'formik'
+import UserApi from '../api'
+import {RootContext} from '../App'
 
 
 const log = console.log.bind(console)
@@ -63,8 +64,8 @@ const validate = values => {
 
     if (!values.password) {
         errors.password = 'Required'
-    } else if (values.password.length > 2) {
-        errors.password = 'Must be 15 characters or less'
+    } else if (values.password.length < 2) {
+        errors.password = 'Must be more than 3'
     }
 
     // if (!values.email) {
@@ -77,24 +78,39 @@ const validate = values => {
 }
 
 const LoginForm = () => {
-    const [form] = Form.useForm()
+    const {dispatch} = useContext(RootContext)
+    const history = useHistory()
     const formik = useFormik({
         initialValues: {
             username: '',
             password: '',
         },
         validate,
-        onSubmit: values => {
-            alert(JSON.stringify(values, null, 2))
-        }
+        onSubmit: values => handleSubmit(values)
     })
 
+    const handleSubmit = (values) => {
+        let data = {
+            username: values.username,
+            password: values.password,
+        }
 
-    const onFinish = (values) => {
-        log(values)
-
+        UserApi.register(data).then((res) => {
+            if (res.data.code === 200) {
+                console.log('code', res.data.user)
+                dispatch({
+                    type: 'LOGIN',
+                    payload: {user: res.data.user, token: res.data.token}
+                })
+                history.push('/')
+            } else {
+                console.log('error', res.data.message)
+            }
+        }).catch((err) => {
+                console.log(err)
+            }
+        )
     }
-
 
     return (
         <form name="login_form" onSubmit={formik.handleSubmit}>
@@ -102,11 +118,12 @@ const LoginForm = () => {
                 <input type={'text'} name={'username'} {...formik.getFieldProps('username')}
                        className="register-input register-username" placeholder="Please input your name"/>
                 <div className={'hint'}>
-                {formik.touched.username && formik.errors.username ? (
-                    <span> {formik.errors.username}</span>
-                ) : null}
+                    {formik.touched.username && formik.errors.username ? (
+                        <span> {formik.errors.username}</span>
+                    ) : null}
                 </div>
-                <input {...formik.getFieldProps('password')} type={'password'} name={'password'} className="register-input register-password"
+                <input {...formik.getFieldProps('password')} type={'password'} name={'password'}
+                       className="register-input register-password"
                        placeholder="Please input your password"/>
                 <div className={'hint'}>
                     {formik.touched.password && formik.errors.password ? (

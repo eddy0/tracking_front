@@ -3,24 +3,27 @@ import UserApi from '../api'
 import {RootContext} from '../App'
 import {useHistory} from 'react-router'
 import {Link} from 'react-router-dom'
-
+import {useFormik} from 'formik'
 
 function LoginPage(props) {
-    const username = useRef()
-    const password = useRef()
-    const [hint, setHint] = useState('')
+
+    const formik = useFormik({
+        initialValues: {
+            username: '',
+            password: '',
+        },
+        onSubmit: (values) => handleSubmit(values)
+    })
     const {dispatch} = useContext(RootContext)
+    const [hint, setHint] = useState(false)
+    const [Submitting, setSubmitting] = useState(false)
     const history = useHistory()
-    const [submitting, setSubmitting] = useState(false)
 
-
-    const handleSubmit = (e) => {
-        setHint('')
-        setSubmitting(true)
-        e.preventDefault()
+    const handleSubmit = (values) => {
+        setSubmitting(false)
         let data = {
-            username: username.current.value,
-            password: password.current.value
+            username: values.username,
+            password: values.password,
         }
 
         UserApi.login(data).then((res) => {
@@ -37,7 +40,7 @@ function LoginPage(props) {
             }
         }).catch((err) => {
                 console.log(err)
-                // setHint(err.message)
+                setHint(err.message || 'something wrong with internet')
             }
         )
 
@@ -52,19 +55,25 @@ function LoginPage(props) {
                     <div className="login-title">
                         Welcome Back
                     </div>
-                    <form onSubmit={handleSubmit} id="signin">
+
+                    <form  onSubmit={formik.handleSubmit} >
                         <div className="login-inputWrapper">
                             <input className="login-input login-username" name="username" type="text"
-                                   placeholder="username" ref={username}/>
+                                   placeholder="username" {...formik.getFieldProps('username')}/>
                             <input className="login-input login-password" name="password" type="password"
-                                   placeholder="password" ref={password}/>
+                                   placeholder="password" {...formik.getFieldProps('password')}/>
                             <span className="hint"
-                                  style={{display: 'block', fontSize: '1.4rem', height: 20, color: 'salmon'}}>
+                                  style={{
+                                      display: 'block',
+                                      fontSize: 14,
+                                      height: 20,
+                                      color: 'salmon'
+                                  }}>
                                 {hint}
                             </span>
                         </div>
                         <div className="login-btns">
-                            <button type="submit" disabled={submitting===true} className="login-btn login-submit">
+                            <button type="submit" className="login-btn login-submit">
                                 Sign In
                             </button>
                         </div>

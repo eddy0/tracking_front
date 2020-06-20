@@ -9,6 +9,7 @@ const LoginMenu = (props) => {
     const router = useHistory()
 
     const logout = () => {
+        localStorage.clear()
         router.push('/login')
 
     }
@@ -16,7 +17,6 @@ const LoginMenu = (props) => {
         <Menu>
             <Menu.Item>
                 <Link to={'/topic/new'}>
-
                     New Topic
                 </Link>
             </Menu.Item>
@@ -34,8 +34,7 @@ const UserLogin = ({user}) => {
 
         <Dropdown className={'header-login'} overlay={() => <LoginMenu/>}>
             <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-                <Avatar icon="user"/>
-                {/*<Avatar>{user.username.split(' ')[0]}</Avatar>*/}
+                <Avatar>{user.username.split(' ')[0] || 'U'}</Avatar>
             </a>
         </Dropdown>
     )

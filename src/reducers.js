@@ -1,12 +1,11 @@
 import {save} from './utils'
 
 
-const reducer = (state, action) => {
+const reducer = (state={}, action) => {
     switch (action.type) {
         case 'LOGIN':
             const {user, token} = action.payload
             save(action.payload)
-            console.log(action.payload)
             return {
                 ...state,
                 isAuth: true,
@@ -14,7 +13,7 @@ const reducer = (state, action) => {
                 token: token
             }
         case 'LOGOUT':
-            localStorage.clear()
+            window.localStorage.clear()
             return {
                 ...state,
                 isAuth: false,
