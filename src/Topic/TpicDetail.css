@@ -407,4 +407,12 @@ aside .content-action > div svg {
   visibility: visible;
 }
 
+.content-detail ul {
+  list-style: disc;
+  padding-left: 2rem;
+}
+.content-detail ul li {
+  list-style: disc;
+}
+
 /*# sourceMappingURL=TpicDetail.css.map */

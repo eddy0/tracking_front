@@ -9,6 +9,7 @@ import {Radio} from 'antd'
 import {log} from '../utils'
 import {RootContext} from '../App'
 import {TopicApi} from '../api'
+import {useHistory} from 'react-router'
 
 const validate = values => {
     const errors = {}
@@ -43,6 +44,7 @@ const validate = values => {
 
 function TopicNew(props) {
     const {state} = useContext(RootContext)
+    const history = useHistory()
 
     const formik = useFormik({
         initialValues: {
@@ -68,6 +70,7 @@ function TopicNew(props) {
 
         TopicApi.new(data).then((res) => {
             log(res)
+            history.push('/')
         }).catch(err => log(err))
 
     }
@@ -117,7 +120,7 @@ function TopicNew(props) {
                         onChange={(html, event) => {
                             formik.values.html = html.html
                             formik.values.text = html.text
-                            formik.handleChange(event)
+                            // formik.handleChange(event)
                         }}
                     />
                 </section>

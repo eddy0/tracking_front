@@ -35,7 +35,7 @@ function CardList(props) {
                 },
                 pageSize: 10,
             }}
-            dataSource={[...props.list, ...listData]}
+            dataSource={[...props.list]}
 
             renderItem={item => {
                 return (<List.Item

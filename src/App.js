@@ -10,6 +10,7 @@ import TopicDetail from './Topic/TopicDetail'
 import {Spin} from 'antd'
 import reducer from './reducers'
 import {log} from './utils'
+import NotFound from './NotFound'
 
 const initialState = {
     isAuth: false,
@@ -20,6 +21,33 @@ const initialState = {
 
 export const RootContext = React.createContext(initialState)
 
+
+const routes = [
+    {
+        path: '/',
+        component: Card,
+        exact: true,
+    },
+    {
+        path: '/topic/new',
+        component: TopicNew,
+        exact: true,
+    },
+    {
+        path: '/blog',
+        component: Card,
+        exact: true,
+    },
+    {
+        path: '/topic/:id',
+        component: TopicDetail,
+    },
+    {
+        path: '/404',
+        component: NotFound,
+    },
+
+]
 
 function App() {
     const [state, dispatch] = useReducer(reducer, initialState)
@@ -38,20 +66,25 @@ function App() {
         }
     }, [])
 
-
     return (
         <RootContext.Provider value={{state, dispatch}}>
             <div className="App">
                 <Switch>
                     <Route exact={true} path={'/login'} component={LoginPage}/>
                     <Route exact={true} path={'/register'} component={RegisterPage}/>
-                    <Route>
-                        <Header/>
-                        <Route exact={true} path={'/'} component={Card}/>
-                        <Route path={'/blog'} component={Card}/>
-                        <Route exact={true} path={'/topic/new'} component={TopicNew}/>
-                        <Route exact={true} path={'/topic/:id'} component={(props) => <TopicDetail {...props}/>}/>
-                    </Route>
+                    {routes.map((route, i) => {
+                        return <Route
+                            key={i}
+                            path={route.path}
+                            exact={route.exact}
+                            render={props => (
+                                <>
+                                    <Header/>
+                                    <route.component {...props} />
+                                </>
+                            )}
+                        />
+                    })}
                 </Switch>
             </div>
         </RootContext.Provider>

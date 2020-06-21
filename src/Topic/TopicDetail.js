@@ -2,17 +2,19 @@ import React, {useEffect, useState} from 'react'
 import './TpicDetail.css'
 import {TopicApi} from '../api'
 import {log} from '../utils'
-import {Link} from 'react-router-dom'
+import {Link, useHistory} from 'react-router-dom'
 import {Avatar, Spin} from 'antd'
+import {Redirect} from 'react-router'
 
 function TopicDetail(props) {
     const [topic, setTopic] = useState(null)
+    const history = useHistory()
 
     useEffect(() => {
         const id = props.match.params.id
         TopicApi.get(id).then(res => {
             setTopic(res.data.result)
-        }).catch(err => console.log(err))
+        }).catch(err => history.push('/404'))
     }, [])
 
     if (topic === null) {
@@ -20,8 +22,9 @@ function TopicDetail(props) {
             style={{display: 'flex', wdith: '100vw', height: '100vh', alignItems: 'center', justifyContent: 'center'}}
             spinning={true} size={'large'} tip="Loading..."/>
     }
+
+
     const {author, title, content, created_time, views} = topic
-    log(topic)
     return (
         <section className="main">
             <div className="feed-author">

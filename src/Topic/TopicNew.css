@@ -141,4 +141,12 @@
   cursor: not-allowed;
 }
 
+.main-textarea ul {
+  list-style: disc;
+  padding-left: 2rem;
+}
+.main-textarea ul li {
+  list-style: disc;
+}
+
 /*# sourceMappingURL=TopicNew.css.map */

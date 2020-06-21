@@ -472,3 +472,13 @@ aside {
     visibility: visible;
   }
 }
+
+.content-detail ul {
+  list-style: disc;
+  padding-left: 2rem;
+
+  & li {
+    list-style: disc;
+  }
+
+}
