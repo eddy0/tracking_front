@@ -42,7 +42,6 @@ function App() {
     return (
         <RootContext.Provider value={{state, dispatch}}>
             <div className="App">
-                <Spin spinning={false}/>
                 <Switch>
                     <Route exact={true} path={'/login'} component={LoginPage}/>
                     <Route exact={true} path={'/register'} component={RegisterPage}/>
@@ -51,7 +50,7 @@ function App() {
                         <Route exact={true} path={'/'} component={Card}/>
                         <Route path={'/blog'} component={Card}/>
                         <Route exact={true} path={'/topic/new'} component={TopicNew}/>
-                        <Route exact={true} path={'/topic/detail'} component={TopicDetail}/>
+                        <Route exact={true} path={'/topic/:id'} component={(props) => <TopicDetail {...props}/>}/>
                     </Route>
                 </Switch>
             </div>

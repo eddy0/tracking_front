@@ -51,6 +51,10 @@ svg > path {
     clear: both;
 }
 
+.flex-center {
+    display: flex;
+    align-items: center;
+}
 
 @import "./Header/Header.css";
 @import "Card/Card.css";

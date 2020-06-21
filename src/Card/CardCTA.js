@@ -11,11 +11,12 @@ const IconText = ({icon, text}) => (
 );
 
 function CardCTA(props) {
+    const {views} = props
     return (
         <div style={{display:"flex", alignItems:"center"}}>
             <IconText icon={StarOutlined}  text="156" key="list-vertical-star-o"/>
             <Divider type={"vertical"} />
-            <IconText icon={MessageOutlined} text="2" key="list-vertical-message"/>
+            <IconText icon={MessageOutlined} text={views} key="list-vertical-message"/>
         </div>
     );
 }

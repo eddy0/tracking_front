@@ -38,7 +38,7 @@ class TopicApi {
         return axios.get(path)
     }
 
-    static fetch(id) {
+    static get(id) {
         const path = `/api/topic/${id}`
         return axios.get(path)
     }

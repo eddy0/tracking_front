@@ -1,41 +1,57 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react'
 import './TpicDetail.css'
+import {TopicApi} from '../api'
+import {log} from '../utils'
+import {Link} from 'react-router-dom'
+import {Avatar, Spin} from 'antd'
 
 function TopicDetail(props) {
-    return (
+    const [topic, setTopic] = useState(null)
 
+    useEffect(() => {
+        const id = props.match.params.id
+        TopicApi.get(id).then(res => {
+            setTopic(res.data.result)
+        }).catch(err => console.log(err))
+    }, [])
+
+    if (topic === null) {
+        return <Spin
+            style={{display: 'flex', wdith: '100vw', height: '100vh', alignItems: 'center', justifyContent: 'center'}}
+            spinning={true} size={'large'} tip="Loading..."/>
+    }
+    const {author, title, content, created_time, views} = topic
+    log(topic)
+    return (
         <section className="main">
             <div className="feed-author">
-                <a href="/user/{{ author._id }}" className="author-avatar">
-                    <img src="/user/avatar/{{ author.avatar }}" alt=""/>
-                </a>
+                <Link to={`/user/${author.id}`} className="author-avatar">
+                    <Avatar>{author.username}</Avatar>
+                </Link>
                 <div className="author-detail">
+                    <Link to={`/user/${author.id}`}>
                     <span className="author-name">
-                        <a href="/user/{{ author._id }}"> {'author.nickname'} </a>
+                         {author.username}
                     </span>
-                    <span className="author-note">
-                       {'author.note'}
-                    </span>
+                    </Link>
                 </div>
             </div>
-            <article className="content-box" data-id="{{topic._id}}">
-
+            <article className="content-box">
                 <h2 className="content-title">
-                    {'topic.title'}
+                    {title}
                 </h2>
 
                 <div className="content-info">
-                    <span className="feed-views">{'topic.views'}views</span>
+                    <span className="feed-views">{views} views</span>
                     <span className="feed-date">
-                published by {'topic.createdTime'}
+                published by {created_time}
             </span>
                 </div>
-                <div className="content-detail">
-                    {'topic.content'}
-                </div>
+                <div className="content-detail"
+                     dangerouslySetInnerHTML={{__html: content}}/>
             </article>
         </section>
-    );
+    )
 }
 
-export default TopicDetail;
+export default TopicDetail

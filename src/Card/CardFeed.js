@@ -1,23 +1,24 @@
 import React from 'react';
 import {Avatar, Divider, List} from "antd";
+import {Link} from 'react-router-dom'
 
 function BlogAuthor(props) {
-    const {user} = props
+    const {author} = props
     return (
-        <div>
-            <Avatar size={"small"} > {user.username}</Avatar>
-            <a href={`user/${user.id}`}>{user.username}</a>
+        <div className={'flex-center'}>
+            <Avatar size={"small"} style={{marginRight: 5}} > {author.username}</Avatar>
+            <Link to={`user/${author.id}`}>{author.username}</Link>
         </div>
         );
 }
 
 function CardFeed(props) {
-    const {user, created_time} = props
+    const {author, time} = props
     return (
-        <div style={{display:"flex", alignItems:"center"}}>
-            <BlogAuthor user={user} />
-            <Divider type={"vertical"} />
-            <span> {created_time}</span>
+        <div style={{display:"flex", alignItems:"center", padding:'0 0 1rem 0'}}>
+            <BlogAuthor author={author} />
+            <Divider type={"vertical"}  />
+            <span> {time}</span>
         </div>
           );
 }
