@@ -12,6 +12,7 @@ import reducer from './reducers'
 import {log} from './utils'
 import NotFound from './NotFound'
 
+
 const initialState = {
     isAuth: false,
     user: null,
@@ -66,25 +67,28 @@ function App() {
         }
     }, [])
 
+
+    const configRoutes = routes.map((route, i) => {
+        return <Route
+            key={i}
+            path={route.path}
+            exact={route.exact}
+            render={props => (
+                <>
+                    <Header/>
+                    <route.component {...props} />
+                </>
+            )}
+        />
+    })
+
     return (
         <RootContext.Provider value={{state, dispatch}}>
             <div className="App">
                 <Switch>
                     <Route exact={true} path={'/login'} component={LoginPage}/>
                     <Route exact={true} path={'/register'} component={RegisterPage}/>
-                    {routes.map((route, i) => {
-                        return <Route
-                            key={i}
-                            path={route.path}
-                            exact={route.exact}
-                            render={props => (
-                                <>
-                                    <Header/>
-                                    <route.component {...props} />
-                                </>
-                            )}
-                        />
-                    })}
+                    {configRoutes}
                 </Switch>
             </div>
         </RootContext.Provider>

@@ -3,6 +3,7 @@ import {Button, Spin} from 'antd'
 import CardList from './CardList'
 import {TopicApi} from '../api'
 import {log} from '../utils'
+import {error} from '../Modal'
 
 function Card(props) {
     const [topics, setTopics] = useState([])
@@ -11,8 +12,11 @@ function Card(props) {
     useEffect(() => {
         setFetching(true)
         TopicApi.all().then((res) => {
-            log(res)
-            setTopics(res.data.result)
+            console.log(res)
+            setTopics(res.data)
+        }).catch(err => {
+            error('error', `${err}`)
+        }).finally(() => {
             setFetching(false)
         })
     }, [])
@@ -26,10 +30,7 @@ function Card(props) {
     return (
         <main className={'main'}>
             <div className="main-container">
-
                 <CardList list={topics}/>
-
-
             </div>
         </main>
     )
