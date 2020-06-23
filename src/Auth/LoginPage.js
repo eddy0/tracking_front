@@ -27,19 +27,14 @@ function LoginPage(props) {
         }
 
         UserApi.login(data).then((res) => {
-            console.log(res)
-            const {code, data} = res
-            if (code === 0) {
-                console.log('code', data.user)
-                dispatch({
-                    type: 'LOGIN',
-                    payload: {user: data.user, token: data.token}
-                })
-                history.push('/')
-            } else {
-                console.log('error', data.message)
-                setHint(data.message)
-            }
+            const {user, token} = res
+            console.log('code', user)
+            dispatch({
+                type: 'LOGIN',
+                payload: {user: token, token: token}
+            })
+            history.push('/')
+
         }).catch((err) => {
                 console.log(err)
                 setHint(err.message || 'something wrong with internet')
@@ -58,7 +53,7 @@ function LoginPage(props) {
                         Welcome Back
                     </div>
 
-                    <form  onSubmit={formik.handleSubmit} >
+                    <form onSubmit={formik.handleSubmit}>
                         <div className="login-inputWrapper">
                             <input className="login-input login-username" name="username" type="text"
                                    placeholder="username" {...formik.getFieldProps('username')}/>

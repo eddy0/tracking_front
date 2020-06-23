@@ -9,8 +9,7 @@ const axios = Axios.create({
     baseURL: url,
     headers: {
         'Content-Type': 'application/json',
-        'X-CSRF-TOKEN': window.cookie
-        // 'csrf_token'
+        // 'X-CSRF-TOKEN': window.cookie
     }
 })
 
@@ -19,32 +18,20 @@ axios.interceptors.response.use((response) => {
         const r = response.data
         const {code, message} = r
         if (code === 0) {
-            return r
+            return r.data
         } else {
             // 抛出服务器错误
-            const err = {
-                type: 'api',
-                title: '服务器响应出错了，请截图联系客服',
-                body: (
-                    <div>
-                        <div>errcode: {code}</div>
-                        <div>time: {Date.toLocaleString(Date.now())}</div>
-                        <div>url: {window.location.href}</div>
-                        <div>message: {message}</div>
-                    </div>
-                ),
-                ...r,
-            }
-            throw err
+
+            return Promise.reject(r)
         }
     }
 }, (response) => {
     const err = {
         type: 'http',
-        title: 'http请求状态错误，请截图联系客服',
+        title: 'http error请求状态错误，请截图联系客服',
         body: (
             <div>
-                <div>err: {response.status}</div>
+                <div>err: {response.message}</div>
                 <div>time: {Date(Date.now()).toLocaleString()}</div>
                 <div>url: {window.location.href}</div>
             </div>
@@ -54,6 +41,7 @@ axios.interceptors.response.use((response) => {
         title: err.title || null,
         content: err.body,
     })
+    return Promise.reject()
 })
 
 configure({axios})
