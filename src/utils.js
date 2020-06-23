@@ -4,8 +4,9 @@ const save = (payload) => {
     localStorage.setItem('token', payload.token)
 }
 
-export const log = console.log.bind(console)
+const log = console.log.bind(console)
 
 export {
     save,
+    log,
 }

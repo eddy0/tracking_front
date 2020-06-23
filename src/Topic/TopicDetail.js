@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import './TpicDetail.css'
-import {TopicApi} from '../api'
+import {TopicApi} from '../api/api'
 import {log} from '../utils'
 import {Link, useHistory} from 'react-router-dom'
 import {Avatar, Spin} from 'antd'

@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react'
-import './TopicNew.css'
+import _css from'./TopicNew.module.css'
 import MdEditor from 'react-markdown-editor-lite'
 import MarkdownIt from 'markdown-it'
 import 'react-markdown-editor-lite/lib/index.css'
@@ -8,7 +8,7 @@ import {Select} from 'antd'
 import {Radio} from 'antd'
 import {log} from '../utils'
 import {RootContext} from '../App'
-import {TopicApi} from '../api'
+import {TopicApi} from '../api/api'
 import {useHistory} from 'react-router'
 
 const validate = values => {
@@ -86,13 +86,13 @@ function TopicNew(props) {
 
     return (
 
-        <div className="main">
-            <form onSubmit={formik.handleSubmit}>
-                <section className="main-title">
-                    <input {...formik.getFieldProps('title')} type="text" className="title-content" name="title"
+        <div className={`${_css.main} main`}>
+            <form className={_css['main-container']} onSubmit={formik.handleSubmit}>
+                <section className={_css['main-title']}>
+                    <input {...formik.getFieldProps('title')} type="text" className={_css['title-content']} name="title"
                            placeholder="Input the Title"/>
-                    <div className="tag-content">
-                        <span className="tag-header" style={{marginRight: '1rem'}}>Select a Board&nbsp;:</span>
+                    <div className={_css['tag-content']}>
+                        <span className={_css['tag-header']} style={{marginRight: '1rem'}}>Select a Board&nbsp;:</span>
                         <div>
                             <Radio.Group {...formik.getFieldProps('board')} value={formik.values.board}>
                                 <Radio value={1}>front-end</Radio>
@@ -101,18 +101,18 @@ function TopicNew(props) {
                             </Radio.Group>
                         </div>
                     </div>
-                    <div className="tag-content">
-                        <span className="tag-header" style={{marginRight: '1rem'}}>Authorization&nbsp;:</span>
+                    <div className={_css["tag-content"]}>
+                        <span className={_css["tag-header" ]} style={{marginRight: '1rem'}}>Authorization&nbsp;:</span>
                         <Radio.Group {...formik.getFieldProps('auth')} value={formik.values.auth}>
                             <Radio value={1}>public</Radio>
                             <Radio value={2}>private</Radio>
                         </Radio.Group>
                     </div>
                 </section>
-                <section className="main-textarea">
+                <section className={_css['main-textarea']}>
                     <MdEditor
-                        className={'text-container'}
-                        htmlClass={'text-container'}
+                        className={_css['text-container']}
+                        htmlClass={_css['text-container']}
                         value={formik.values.text}
                         placeholder='type text here'
                         // style={{ height: "500px" }}
@@ -124,8 +124,8 @@ function TopicNew(props) {
                         }}
                     />
                 </section>
-                <div className="footer">
-                    <button className="wd-topic-btn wd-topic-submit" disabled={!formik.dirty || !formik.isValid}
+                <div className={_css['footer']}>
+                    <button className={`${_css['wd-topic-btn']} ${_css['wd-topic-submit']}`} disabled={!formik.dirty || !formik.isValid}
                             type={'submit'}>Submit
                     </button>
                 </div>

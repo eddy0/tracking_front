@@ -7,9 +7,7 @@ import LoginPage from './Auth/LoginPage'
 import RegisterPage from './Auth/RegisterPage'
 import TopicNew from './Topic/TopicNew'
 import TopicDetail from './Topic/TopicDetail'
-import {Spin} from 'antd'
 import reducer from './reducers'
-import {log} from './utils'
 import NotFound from './NotFound'
 
 

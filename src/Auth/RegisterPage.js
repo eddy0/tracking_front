@@ -1,7 +1,7 @@
 import React, {useContext} from 'react'
 import {Link, useHistory} from 'react-router-dom'
 import {useFormik} from 'formik'
-import UserApi from '../api'
+import UserApi from '../api/api'
 import {RootContext} from '../App'
 
 

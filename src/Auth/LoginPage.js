@@ -1,5 +1,5 @@
 import React, {useContext, useRef, useState} from 'react'
-import UserApi from '../api'
+import UserApi from '../api/api'
 import {RootContext} from '../App'
 import {useHistory} from 'react-router'
 import {Link} from 'react-router-dom'
@@ -27,16 +27,18 @@ function LoginPage(props) {
         }
 
         UserApi.login(data).then((res) => {
-            if (res.data.code === 200) {
-                console.log('code', res.data.user)
+            console.log(res)
+            const {code, data} = res
+            if (code === 0) {
+                console.log('code', data.user)
                 dispatch({
                     type: 'LOGIN',
-                    payload: {user: res.data.user, token: res.data.token}
+                    payload: {user: data.user, token: data.token}
                 })
                 history.push('/')
             } else {
-                console.log('error', res.data.message)
-                setHint(res.data.message)
+                console.log('error', data.message)
+                setHint(data.message)
             }
         }).catch((err) => {
                 console.log(err)

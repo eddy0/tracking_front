@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {Button, Spin} from 'antd'
 import CardList from './CardList'
-import {TopicApi} from '../api'
+import {TopicApi} from '../api/api'
 import {log} from '../utils'
 import {error} from '../Modal'
 

@@ -149,3 +149,7 @@ a.ant-typography, .ant-typography a {
 
 }
 
+.main-container .ant-list {
+    width: 80%;
+}
+
