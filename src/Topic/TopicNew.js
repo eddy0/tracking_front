@@ -72,7 +72,6 @@ function TopicNew(props) {
             log(res)
             history.push('/')
         }).catch(err => log(err))
-
     }
 
     const mdParser = new MarkdownIt
