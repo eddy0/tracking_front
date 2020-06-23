@@ -5,25 +5,36 @@ import {log} from '../utils'
 import {Link, useHistory} from 'react-router-dom'
 import {Avatar, Spin} from 'antd'
 import {Redirect} from 'react-router'
+import NotFound from '../NotFound'
 
 function TopicDetail(props) {
     const [topic, setTopic] = useState(null)
+    const [loading, setLoading] = useState(true)
     const history = useHistory()
 
     useEffect(() => {
         const id = props.match.params.id
         TopicApi.get(id).then(data => {
             setTopic(data)
-        }).catch(err => console.log(err) )
+        }).catch(err => {
+            if (err.code === 404) {
+                setTopic(null)
+            }
+        }).finally(() => {
+                setLoading(false)
+            }
+        )
     }, [])
 
-    if (topic === null) {
+    if (loading === true) {
         return <Spin
             style={{display: 'flex', wdith: '100vw', height: '100vh', alignItems: 'center', justifyContent: 'center'}}
             spinning={true} size={'large'} tip="Loading..."/>
     }
 
-
+    if (topic === null ) {
+        return <NotFound/>
+    }
 
     const {author, title, content, created_time, views} = topic
     return (
