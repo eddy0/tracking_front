@@ -29,7 +29,6 @@ const LoginMenu = (props) => {
 }
 
 const UserLogin = ({user}) => {
-
     return (
 
         <Dropdown className={'header-login'} overlay={() => <LoginMenu/>}>

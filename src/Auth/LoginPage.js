@@ -31,7 +31,7 @@ function LoginPage(props) {
             console.log('code', user)
             dispatch({
                 type: 'LOGIN',
-                payload: {user: token, token: token}
+                payload: {user: user, token: token}
             })
             history.push('/')
 

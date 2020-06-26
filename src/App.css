@@ -56,6 +56,24 @@ svg > path {
     align-items: center;
 }
 
+@media (min-width: 1012px) {
+    ._container {
+        max-width: 984px;
+    }
+}
+
+@media (min-width: 760px) and (max-width: 1011px) {
+    ._container {
+        max-width: 700px;
+    }
+}
+
+._container {
+    margin: 0 auto;
+    height: 100%;
+}
+
+
 @import "./Header/Header.css";
 @import "Card/Card.css";
 @import "./Login.css";

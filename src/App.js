@@ -9,6 +9,7 @@ import TopicNew from './Topic/TopicNew'
 import TopicDetail from './Topic/TopicDetail'
 import reducer from './reducers'
 import NotFound from './NotFound'
+import testForm from './testForm'
 
 
 const initialState = {
@@ -86,6 +87,7 @@ function App() {
                 <Switch>
                     <Route exact={true} path={'/login'} component={LoginPage}/>
                     <Route exact={true} path={'/register'} component={RegisterPage}/>
+                    <Route exact={true} path={'/test'} component={testForm}/>
                     {configRoutes}
                 </Switch>
             </div>
