@@ -19,18 +19,11 @@ function TopicNew(props) {
     const mdParser = new MarkdownIt()
     const initValues = {
         title: '',
-        auth: 1,
+        permission: 1,
         board: 1,
         type: 1,
         content: '',
         text: '',
-    }
-
-
-    // 表单结束
-    const onFinish = values => {
-        // values.content = formatContent(values.content)
-        console.log('Success:', values)
     }
 
     // 表单校验有错
@@ -55,7 +48,7 @@ function TopicNew(props) {
     }
 
 
-    const handleSubmit = (values) => {
+    const onFinish = (values) => {
         // console.log(values, state.token, state.user.id)
         const {user, token} = state
         log(values, user, state)
@@ -136,9 +129,9 @@ function TopicNew(props) {
                     <Row>
                         <Col span={10}>
                             <Form.Item
-                                name="auth"
-                                label="Authorization"
-                                rules={[{required: true, message: 'add a type!'}]}
+                                name="permission"
+                                label="Permission"
+                                rules={[{required: true, message: 'add permission!'}]}
                             >
                                 <Radio.Group>
                                     <Radio value={1}>public</Radio>

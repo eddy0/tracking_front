@@ -1,15 +1,18 @@
 import React from 'react';
 import {Tag} from "antd";
 
+const tags = {
+    1: 'Front end',
+    2: 'Back end',
+    3: 'Note',
+}
+
 function CardTag(props) {
-    const tags = ['前端', '后端', '笔记']
+
+    const tag = tags[props.tag]
     return (
         <div style={{display:"flex", alignItems:"center", padding:'0 0 1rem 0'}}>
-            {
-                tags.map((tag, key) => {
-                    return <Tag key={key}> {tag}</Tag>
-                })
-            }
+            <Tag > {tag}</Tag>
         </div>
     );
 }

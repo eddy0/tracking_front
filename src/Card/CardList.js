@@ -41,10 +41,10 @@ function CardList(props) {
                 return (<List.Item
                         key={item.id}
                     >
-                        <CardType/>
+                        <CardType type={item.type_id} />
                         <CardTitle id={item.id} title={item.title}/>
                         <CardFeed time={item.created_time} author={item.author}/>
-                        <CardTag/>
+                        <CardTag tag={item['board_id']}/>
                         <CardCTA views={item.views || 0}/>
                     </List.Item>
                 )

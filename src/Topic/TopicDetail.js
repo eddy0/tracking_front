@@ -6,8 +6,12 @@ import {Link, useHistory} from 'react-router-dom'
 import {Avatar, Spin} from 'antd'
 import {Redirect} from 'react-router'
 import NotFound from '../NotFound'
+import MarkdownIt from 'markdown-it'
 
 function TopicDetail(props) {
+
+    const mdParser = new MarkdownIt()
+
     const [topic, setTopic] = useState(null)
     const [loading, setLoading] = useState(true)
     const history = useHistory()
@@ -32,11 +36,12 @@ function TopicDetail(props) {
             spinning={true} size={'large'} tip="Loading..."/>
     }
 
-    if (topic === null ) {
+    if (topic === null) {
         return <NotFound/>
     }
 
-    const {author, title, content, created_time, views} = topic
+
+    const {author, title, content, created_time, views, html} = topic
     return (
         <section className="main">
             <div className="feed-author">
@@ -62,8 +67,13 @@ function TopicDetail(props) {
                 published by {created_time}
             </span>
                 </div>
-                <div className="content-detail"
-                     dangerouslySetInnerHTML={{__html: content}}/>
+                {
+                    topic['permission_id'] === 2
+                        ? <NotFound message={'No Permission'}/>
+                        : <div className="content-detail"
+                               dangerouslySetInnerHTML={{__html: mdParser.render(content)}}/>
+                }
+
             </article>
         </section>
     )

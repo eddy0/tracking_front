@@ -12,6 +12,7 @@ function Card(props) {
     useEffect(() => {
         setFetching(true)
         TopicApi.all().then((res) => {
+            log(res)
             setTopics(res)
         }).catch(err => {
             error('error', `${err}`)
