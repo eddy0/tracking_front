@@ -6,17 +6,19 @@ import MdEditor from 'react-markdown-editor-lite'
 import MarkdownIt from 'markdown-it'
 import 'react-markdown-editor-lite/lib/index.css'
 
-const RightForm = function () {
-    const mdParser = new MarkdownIt
+
+const mdParser = new MarkdownIt
+
+const TestForm = function () {
     const [_form] = Form.useForm()
     const [submit, setSubmit] = useState(true)
 
     const initValues = {
         title: '',
-        content: {text: 'sdf', html: '<p>sdfsf</p>>'},
         auth: 1,
         board: 1,
         type: 1,
+        content: '#### sdfs↵↵good morning↵↵- sdf',
         text: '# sdfsf',
     }
 
@@ -26,7 +28,7 @@ const RightForm = function () {
 
     // 表单结束
     const onFinish = values => {
-        // console.log('Success:', values)
+        console.log('Success:', values)
     }
 
     // 表单校验有错
@@ -35,16 +37,20 @@ const RightForm = function () {
     }
 
     const onFieldsChange = (changedFields, allFields) => {
-        console.log(changedFields[0]?.value)
+        console.log('file change', changedFields[0]?.value)
         let title = allFields.filter(f => f.name[0] === 'title')[0]
         let titleTouched = title.touched
-        let l = _form.getFieldsError().filter(({errors}) => errors.length).length === 0
-        if (!l && titleTouched) {
+        let error = _form.getFieldsError().filter(({errors}) => errors.length).length
+        if (error !== 0 || !titleTouched) {
             setSubmit(true)
         } else {
             setSubmit(false)
         }
+    }
 
+    const hanldeNormalize = (value, prevValue, prevValues) => {
+        log('value normal', value)
+        return value.text
     }
 
 
@@ -124,24 +130,20 @@ const RightForm = function () {
                 <Row>
                     <Col span={24}>
                         <Form.Item
-                            name="content"
-                            noStyle={true}
-                            valuePropName="text"
-                            rules={[({getFieldValue}) => ({
-                                validator(rule, value) {
-                                    if (!value.text || value.text.length > 10) {
-                                        return Promise.resolve()
-                                    }
-                                    return Promise.reject('must over 10 words')
-                                },
-                            }),
-                            ]}
+                            name={'content'}
+                            normalize={hanldeNormalize}
+                            rules={[{required: true}, {min: 10, message: 'must be at least 10 characters'}]}
                         >
                             <MdEditor
                                 value={''}
                                 placeholder='type text here'
                                 style={{height: '500px'}}
-                                renderHTML={(text) => mdParser.render(text)}
+                                renderHTML={(text) => {
+                                    let html = mdParser.render(text)
+                                    console.log(text, html)
+                                    return html
+
+                                }}
                             />
                         </Form.Item>
                     </Col>
@@ -166,4 +168,4 @@ const RightForm = function () {
         </div>
     )
 }
-export default RightForm
+export default TestForm
