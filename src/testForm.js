@@ -1,33 +1,39 @@
 import React, {useState} from 'react'
 import {Button, Col, Form, Input, Radio, Row, Select} from 'antd'
 import {log} from './utils'
-import _css from './Topic/TopicNew.module.css'
 import MdEditor from 'react-markdown-editor-lite'
 import MarkdownIt from 'markdown-it'
 import 'react-markdown-editor-lite/lib/index.css'
 
 
-const mdParser = new MarkdownIt
-
 const TestForm = function () {
     const [_form] = Form.useForm()
     const [submit, setSubmit] = useState(true)
+    const mdParser = new MarkdownIt()
+
 
     const initValues = {
         title: '',
         auth: 1,
         board: 1,
         type: 1,
-        content: '#### sdfs↵↵good morning↵↵- sdf',
-        text: '# sdfsf',
+        content: '',
+        text: '',
     }
 
     const layout = {
         wrapperCol: {span: 24},
     }
 
+    const formatContent = (content) => {
+        const c =  content.replace(/↵/ig, '\n')
+        const html = mdParser.render(content)
+        return c
+    }
+
     // 表单结束
     const onFinish = values => {
+        // values.content = formatContent(values.content)
         console.log('Success:', values)
     }
 
@@ -37,7 +43,6 @@ const TestForm = function () {
     }
 
     const onFieldsChange = (changedFields, allFields) => {
-        console.log('file change', changedFields[0]?.value)
         let title = allFields.filter(f => f.name[0] === 'title')[0]
         let titleTouched = title.touched
         let error = _form.getFieldsError().filter(({errors}) => errors.length).length
@@ -135,15 +140,14 @@ const TestForm = function () {
                             rules={[{required: true}, {min: 10, message: 'must be at least 10 characters'}]}
                         >
                             <MdEditor
-                                value={''}
+
+                                config={{
+                                    syncScrollMode: ['leftFollowRight', 'rightFollowLeft'],
+                                }}
+
                                 placeholder='type text here'
                                 style={{height: '500px'}}
-                                renderHTML={(text) => {
-                                    let html = mdParser.render(text)
-                                    console.log(text, html)
-                                    return html
-
-                                }}
+                                renderHTML={(text) => mdParser.render(text)}
                             />
                         </Form.Item>
                     </Col>
@@ -168,4 +172,6 @@ const TestForm = function () {
         </div>
     )
 }
+
+
 export default TestForm
