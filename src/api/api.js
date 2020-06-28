@@ -10,7 +10,7 @@ const axios = Axios.create({
     baseURL: url,
     headers: {
         'Content-Type': 'application/json',
-        'X-CSRF-TOKEN': Cookies.get('csrf_token')
+        // 'X-CSRF-TOKEN': Cookies.get('csrf_token') || 'csrftoken'
     }
 })
 
@@ -75,6 +75,11 @@ class TopicApi {
     static get(id) {
         const path = `/api/topic/${id}`
         return axios.get(path)
+    }
+
+    static update(data) {
+        const path = '/api/topic'
+        return axios.put(path, data)
     }
 }
 

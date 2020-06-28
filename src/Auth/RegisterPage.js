@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, {useContext, useState} from 'react'
 import {Link, useHistory} from 'react-router-dom'
 import {useFormik} from 'formik'
 import UserApi from '../api/api'
@@ -80,6 +80,8 @@ const validate = values => {
 const LoginForm = () => {
     const {dispatch} = useContext(RootContext)
     const history = useHistory()
+    const [hint, setHint] = useState(false)
+
     const formik = useFormik({
         initialValues: {
             username: '',
@@ -95,21 +97,17 @@ const LoginForm = () => {
             password: values.password,
         }
 
-        UserApi.register(data).then((res) => {
-            if (res.data.code === 200) {
-                console.log('code', res.data.user)
-                dispatch({
-                    type: 'LOGIN',
-                    payload: {user: res.data.user, token: res.data.token}
-                })
-                history.push('/')
-            } else {
-                console.log('error', res.data.message)
-            }
-        }).catch((err) => {
-                console.log(err)
-            }
-        )
+        UserApi.register(data).then((data) => {
+            const {user, token} = data
+            dispatch({
+                type: 'LOGIN',
+                payload: {user: user, token: token}
+            })
+            history.push('/')
+        }).catch(err => {
+            console.log(err)
+            setHint(err.message || 'something wrong with internet')
+        })
     }
 
     return (
@@ -129,7 +127,17 @@ const LoginForm = () => {
                     {formik.touched.password && formik.errors.password ? (
                         <span> {formik.errors.password}</span>
                     ) : null}
+
                 </div>
+                <span className="hint"
+                      style={{
+                          display: 'block',
+                          fontSize: 14,
+                          height: 20,
+                          color: 'salmon'
+                      }}>
+                                {hint}
+                            </span>
                 <div className="register-btns">
                     <button className={'register-btn'} type="submit">
                         Register

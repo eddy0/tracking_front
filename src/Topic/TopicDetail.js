@@ -1,14 +1,15 @@
-import React, {useEffect, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import './TpicDetail.css'
 import {TopicApi} from '../api/api'
 import {log} from '../utils'
 import {Link, useHistory} from 'react-router-dom'
-import {Avatar, Spin} from 'antd'
-import {Redirect} from 'react-router'
+import {Avatar, Button, Spin} from 'antd'
 import NotFound from '../NotFound'
 import MarkdownIt from 'markdown-it'
+import {RootContext} from '../App'
 
 function TopicDetail(props) {
+    const {state} = useContext(RootContext)
 
     const mdParser = new MarkdownIt()
 
@@ -40,8 +41,10 @@ function TopicDetail(props) {
         return <NotFound/>
     }
 
+    log(state)
 
-    const {author, title, content, created_time, views, html} = topic
+
+    const {id, author, title, content, created_time, views} = topic
     return (
         <section className="main">
             <div className="feed-author">
@@ -60,6 +63,13 @@ function TopicDetail(props) {
                 <h2 className="content-title">
                     {title}
                 </h2>
+                {
+                    state.user && state.user.id === author.id
+                        ? (<Button className="content-edit">
+                            <Link to={`/topic/${id}/edit`}>edit</Link>
+                        </Button>)
+                        : null
+                }
 
                 <div className="content-info">
                     <span className="feed-views">{views} views</span>
@@ -68,7 +78,7 @@ function TopicDetail(props) {
             </span>
                 </div>
                 {
-                    topic['permission_id'] === 2
+                    state.user && state.user.id !== author.id && topic['permission_id'] === 2
                         ? <NotFound message={'No Permission'}/>
                         : <div className="content-detail"
                                dangerouslySetInnerHTML={{__html: mdParser.render(content)}}/>

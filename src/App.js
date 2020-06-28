@@ -10,6 +10,7 @@ import TopicDetail from './Topic/TopicDetail'
 import reducer from './reducers'
 import NotFound from './NotFound'
 import testForm from './testForm'
+import SubmitForm from './components/SubmitForm'
 
 
 const initialState = {
@@ -30,7 +31,7 @@ const routes = [
     },
     {
         path: '/topic/new',
-        component: TopicNew,
+        component: SubmitForm,
         exact: true,
     },
     {
@@ -39,9 +40,15 @@ const routes = [
         exact: true,
     },
     {
+        path: '/topic/:id/edit',
+        component: SubmitForm,
+        exact: true,
+    },
+    {
         path: '/topic/:id',
         component: TopicDetail,
     },
+
     {
         path: '/404',
         component: NotFound,
