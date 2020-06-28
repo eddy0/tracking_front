@@ -1,4 +1,4 @@
-import {Menu, Dropdown, Avatar} from 'antd'
+import {Menu, Dropdown, Avatar, Divider} from 'antd'
 import React from 'react'
 
 import {useHistory} from 'react-router'
@@ -18,6 +18,11 @@ const LoginMenu = (props) => {
             <Menu.Item>
                 <Link to={'/topic/new'}>
                     New Topic
+                </Link>
+            </Menu.Item>
+            <Menu.Item>
+                <Link to={'/profile'}>
+                    Profile
                 </Link>
             </Menu.Item>
             <Menu.Item onClick={() => logout()}>

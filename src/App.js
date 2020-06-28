@@ -11,6 +11,7 @@ import reducer from './reducers'
 import NotFound from './NotFound'
 import testForm from './testForm'
 import SubmitForm from './components/SubmitForm'
+import Profile from './Card/Profile/Profile'
 
 
 const initialState = {
@@ -44,10 +45,21 @@ const routes = [
         component: SubmitForm,
         exact: true,
     },
+
     {
         path: '/topic/:id',
         component: TopicDetail,
     },
+    {
+        path: '/profile',
+        component: Profile,
+        exact: true,
+    },
+    {
+        path: '/profile/:id',
+        component: Profile,
+    },
+
 
     {
         path: '/404',

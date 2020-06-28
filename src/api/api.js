@@ -58,6 +58,13 @@ class UserApi {
         const path = '/api/register'
         return axios.post(path, data)
     }
+
+    static get(id) {
+        const path = `/api/user/${id}`
+        return axios.get(path)
+    }
+
+
 }
 
 class TopicApi {
