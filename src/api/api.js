@@ -3,13 +3,14 @@ import {configure} from 'axios-hooks'
 import React from 'react'
 import {Modal} from 'antd'
 import url from './baseUrl'
+import Cookies from 'js-cookie'
 
 
 const axios = Axios.create({
     baseURL: url,
     headers: {
         'Content-Type': 'application/json',
-        // 'X-CSRF-TOKEN': window.cookie
+        'X-CSRF-TOKEN': Cookies.get('csrf_token')
     }
 })
 
