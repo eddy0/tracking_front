@@ -75,6 +75,5 @@ svg > path {
 
 
 @import "./Header/Header.css";
-@import "Card/Card.css";
 @import "./Login.css";
 @import "./Register.css";

@@ -4,6 +4,7 @@ import CardList from './CardList'
 import {TopicApi} from '../api/api'
 import {log} from '../utils'
 import {error} from '../Modal'
+import "./Card.css";
 
 function Card(props) {
     const [topics, setTopics] = useState([])
