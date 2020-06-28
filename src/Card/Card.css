@@ -110,7 +110,7 @@
     margin-right: 10px;
 }
 
-.ant-list-item {
+.card .ant-list-item {
     /*color: rgba(0, 0, 0, 0.87);*/
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0,0,0, 0.2);
@@ -123,7 +123,7 @@
 }
 
 
-.ant-list-item:hover {
+.card .ant-list-item:hover {
     box-shadow: 0 5px 10px rgba(0,0,0, 0.4);
 
 }

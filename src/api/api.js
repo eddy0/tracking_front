@@ -63,8 +63,6 @@ class UserApi {
         const path = `/api/user/${id}`
         return axios.get(path)
     }
-
-
 }
 
 class TopicApi {
@@ -90,9 +88,20 @@ class TopicApi {
     }
 }
 
+class ReplyApi {
+
+    static new(data) {
+        const path = '/api/reply'
+        return axios.post(path, data)
+    }
+
+}
+
+
 
 export default UserApi
 
 export {
     TopicApi,
+    ReplyApi,
 }

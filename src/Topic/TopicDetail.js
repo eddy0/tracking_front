@@ -1,12 +1,14 @@
 import React, {useContext, useEffect, useState} from 'react'
 import './TpicDetail.css'
-import {TopicApi} from '../api/api'
+import {ReplyApi, TopicApi} from '../api/api'
 import {log} from '../utils'
 import {Link, useHistory} from 'react-router-dom'
-import {Avatar, Button, Spin} from 'antd'
+import {Avatar, Button, Col, Row, Spin} from 'antd'
 import NotFound from '../NotFound'
 import MarkdownIt from 'markdown-it'
 import {RootContext} from '../App'
+import TopicReply from './TopicReply'
+import ReplyNew from './ReplyNew'
 
 function TopicDetail(props) {
     const {state} = useContext(RootContext)
@@ -14,13 +16,20 @@ function TopicDetail(props) {
     const mdParser = new MarkdownIt()
 
     const [topic, setTopic] = useState(null)
+    const [replies, setReplies] = useState([])
     const [loading, setLoading] = useState(true)
+    const [comment, setComment] = useState('')
+    const [submitting, setSubmitting] = useState(false)
+
     const history = useHistory()
 
     useEffect(() => {
         const id = props.match.params.id
         TopicApi.get(id).then(data => {
-            setTopic(data)
+            log(data)
+            const {topic} = data
+            setTopic(topic)
+            setReplies(data.replies)
         }).catch(err => {
             if (err.code === 404) {
                 setTopic(null)
@@ -30,6 +39,33 @@ function TopicDetail(props) {
             }
         )
     }, [])
+
+    const handleSubmit = () => {
+        if (!comment) {
+            return
+        }
+        setSubmitting(true)
+        const {token} = state
+        const id = props.match.params.id
+        const data =  {
+            topic_id: id,
+            content: comment,
+        }
+        ReplyApi.new({token, data}).then(res => {
+            console.log(res)
+            setReplies([...replies, res.reply])
+        }).catch(err => {
+            console.log(err)
+        }).finally(() => {
+            setComment('')
+            setSubmitting(false)
+        })
+    }
+
+    const handleChange = e => {
+        setComment(e.target.value)
+    }
+
 
     if (loading === true) {
         return <Spin
@@ -41,10 +77,9 @@ function TopicDetail(props) {
         return <NotFound/>
     }
 
-    log(state)
-
 
     const {id, author, title, content, created_time, views} = topic
+    // log(replies)
     return (
         <section className="main">
             <div className="feed-author">
@@ -83,8 +118,25 @@ function TopicDetail(props) {
                         : <div className="content-detail"
                                dangerouslySetInnerHTML={{__html: mdParser.render(content)}}/>
                 }
-
             </article>
+
+            {
+                replies && replies.length > 0 &&
+                <Row>
+                    <Col span={24}>
+                        {
+                            replies.map((reply) => {
+                                return <TopicReply reply={reply} key={reply.id}/>
+                            })
+                        }
+
+                    </Col>
+                </Row>
+            }
+
+            <ReplyNew comment={comment} submitting={submitting} handleChange={handleChange}
+                      handleSubmit={handleSubmit}/>
+
         </section>
     )
 }

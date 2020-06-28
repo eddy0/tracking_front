@@ -30,7 +30,7 @@ function Card(props) {
 
     return (
         <main className={'main'}>
-            <div className="main-container">
+            <div className="main-container card">
                 <CardList list={topics}/>
             </div>
         </main>
